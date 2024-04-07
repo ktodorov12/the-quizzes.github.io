@@ -1,4 +1,4 @@
-import { clearUserData, getUserToken } from "../util.js";
+import { clearUserData, getUserToken } from "@src/util.js";
 
 const host = "https://parseapi.back4app.com";
 const appId = "wiGlkOqBJqWcycdj7p7yhQbgwk6qksF26LhMIydm";
