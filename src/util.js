@@ -31,6 +31,6 @@ export function createSubmitHandler(callback) {
 
     const formData = new FormData(e.target);
     const entries = [...formData.entries()].map(([k, v]) => [k, v.toString().trim()]);
-    callback(Object.fromEntries(entries));
+    callback(Object.fromEntries(entries), e.target);
   };
 }
