@@ -1,3 +1,11 @@
+import { apiCreateQuiz } from "@src/data/quizzes.js";
+
+/**
+ * @param {import("@src/types").PageContext} ctx
+ * @param {Function} template - template to render, usually createTemplate
+ * @param {{topic: string, title: string, questionCount: number, ownerId: string}} quizData
+ * @returns {import("@src/types").QuizHelper}
+ */
 export function quizHelper(ctx, template, quizData) {
   let questionNumbers = 0;
   let questionsData = {};
@@ -8,7 +16,8 @@ export function quizHelper(ctx, template, quizData) {
     submitQuiz,
     createQuestionData,
     onRemoveQuestion,
-    onRemoveAnswer
+    onRemoveAnswerLine,
+    addAnswerLine
   }
   return helper;
 
@@ -36,12 +45,16 @@ export function quizHelper(ctx, template, quizData) {
   /**Adds new question form to the createTemplate */
   function addQuestionForm() {
     questionNumbers++;
-    questionsData[`question-${questionNumbers}`] = {}
-    ctx.render(template(ctx, questionNumbers, helper));
+    questionsData[`question-${questionNumbers}`] = createQuestion();
+    ctx.render(template(ctx, questionNumbers, helper, questionsData));
   }
 
   function submitQuiz() {
-    console.log(questionsData);
+    const userId = ctx.user.objectId;
+    quizData.ownerId = userId
+    const quiz = apiCreateQuiz(quizData)
+    debugger
+    // const updatedData = Object.fromEntries(Object.entries)
   }
 
   /**
@@ -58,12 +71,7 @@ export function quizHelper(ctx, template, quizData) {
       return;
     }
 
-    questionsData[form.id] = {
-        text: data.text,
-        answers: dataParser(data, "answer"),
-        correctIndex: Number(dataParser(data, "question").join()),
-        quizId: ""
-    }
+    questionsData[form.id] = createQuestion(data);
   }
 
   /** 
@@ -76,14 +84,45 @@ export function quizHelper(ctx, template, quizData) {
     const article = e.currentTarget.parentElement.parentElement.parentElement;
     const form = article.querySelector("form");
     
-    delete questionsData[form.id]
+    delete questionsData[form.id];
+    for(let key in questionsData) {
+      const deletedId = idParser(form.id);
+      const currentId = idParser(key);
+      if(deletedId < currentId) {
+        questionsData[`question-${currentId - 1}`] = questionsData[key];
+        delete questionsData[key];
+      }
+    }
     questionNumbers--
 
-    ctx.render(template(ctx, questionNumbers, helper))
+    ctx.render(template(ctx, questionNumbers, helper, questionsData));
   }
 
-  function onRemoveAnswer() {
+    /** 
+   * Adds answer line to specific question
+   * @event click 
+   * @param {object} e 
+   * @returns {void}
+   * */
+  function addAnswerLine(e) {
+    const form = e.currentTarget.parentElement
+    questionsData[form.id].answers.push(null);
+    ctx.render(template(ctx, questionNumbers, helper, questionsData));
+  }
 
+     /** 
+   * Removes answer line from the specific question
+   * @event click 
+   * @param {object} e 
+   * @returns {void}
+   * */
+  function onRemoveAnswerLine(e) {
+    const answerLine = e.currentTarget.parentElement;
+    const form = e.currentTarget.parentElement.parentElement;
+    const answerIndex = Number(answerLine.querySelector("input").value);
+    questionsData[form.id].answers.splice(answerIndex, 1);
+    questionsData[form.id].correctIndex--
+    ctx.render(template(ctx, questionNumbers, helper, questionsData));
   }
 }
 
@@ -98,3 +137,31 @@ function dataParser(object, criteria) {
     .filter((x) => x[0].includes(criteria))
     .map((x) => x[1].trim());
 }
+
+/**
+ * Creates shallow question or populates already created one with data
+ * @param {import("@src/types").QuestionData=} data 
+ * @returns {import("@src/types").QuestionData}
+ */
+function createQuestion(data) {
+  let question = {
+        text: "",
+        answers: [null, null, null],
+        correctIndex: -1,
+        quizId: ""
+  }
+  if(data) {
+    question.text = data.text;
+    question.answers = dataParser(data, "answer");
+    question.correctIndex = Number(dataParser(data, "question").join());
+    question.quizId = "";
+  }
+  return question
+}
+
+/**
+ * Parses question's id into number
+ * @param {string} id 
+ * @returns {Number}
+ */
+const idParser = (id) => Number(id.split("-")[1]);

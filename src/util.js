@@ -12,7 +12,7 @@ export function clearUserData() {
 
 export function getUserId() {
   const userData = getUserData();
-  return userData?._id;
+  return userData?.objectId;
 }
 
 export function getUserToken() {

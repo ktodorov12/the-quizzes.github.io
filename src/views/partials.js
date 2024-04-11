@@ -4,15 +4,15 @@ export function loading() {
   return html`<div>Loading...</div>`;
 }
 
-export function formInputQuestion(questionNum, allAnswers, onRemove) {
-  return allAnswers.map(answer => formAnswerQuestions(questionNum, answer, onRemove, allAnswers.indexOf(answer)))
+export function formInputQuestion(questionNum, questionData, onRemove) {
+  return questionData.answers.map((answer, i) => formAnswerQuestions(questionNum, answer, onRemove, i, questionData.correctIndex))
 }
 
-function formAnswerQuestions(numQuestion, answer, onRemove, answerIndex) {
+function formAnswerQuestions(numQuestion, answer, onRemove, answerIndex, radioIndex) {
   return html`
   <div class="editor-input">
     <label class="radio">
-      <input class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} />
+      <input class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} ?checked=${radioIndex == answerIndex} />
       <i class="fas fa-check-circle"></i>
     </label>
     

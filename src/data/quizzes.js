@@ -13,12 +13,12 @@ const endpoints = {
  *   ownerId: import("./requester").Pointer
  * }} data
  */
-export async function createQuiz(data) {
-  await post(endpoints.allData, data);
+export async function apiCreateQuiz(data) {
+  return await post(endpoints.allData, data);
 }
 
 /** @returns Promise<any> */
-export async function getAllQuizes() {
+export async function apiGetAllQuizes() {
   return await get(endpoints.allData);
 }
 
@@ -31,11 +31,11 @@ export async function getAllQuizes() {
 *   ownerId: import("./requester").Pointer
 * }} data
 */
-export async function updateQuiz(id, data) {
-    await put(endpoints.request(id), data)
+export async function apiUpdateQuiz(id, data) {
+    return await put(endpoints.request(id), data)
 }
 
 /**@param {string} id - id of the quiz to be deleted*/
-export async function deleteQuiz(id) {
-    await del(endpoints.request(id));
+export async function apiDeleteQuiz(id) {
+    return await del(endpoints.request(id));
 }

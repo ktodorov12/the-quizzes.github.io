@@ -4,7 +4,15 @@ import { createSubmitHandler } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 import { formInputQuestion } from "@src/views/partials.js";
 
-function createTemplate(ctx, questionNumbers, helper) {
+/**
+ * Main template for the create view
+ * @param {import("@src/types").PageContext} ctx 
+ * @param {Number} questionNumbers 
+ * @param {import("@src/types").QuizHelper} helper 
+ * @param {import("@src/types").QuestionData} questionsData 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+function createTemplate(ctx, questionNumbers, helper, questionsData) {
   return html` ${
     navigationTemplate(ctx)}
     <section id="editor">
@@ -27,7 +35,7 @@ function createTemplate(ctx, questionNumbers, helper) {
               <option value="software">Tools and Software</option>
             </select>
           </label>
-          <input class="input submit action" type="submit" value="Save" />
+          <input class="input submit action" type="submit" value="Create Quiz" />
         </form>
       </div>
 
@@ -39,7 +47,7 @@ function createTemplate(ctx, questionNumbers, helper) {
         ${new Array(questionNumbers)
             .fill(0)
             .map((_, index) => index + 1)
-            .map(n => questionForm(helper, n))}
+            .map(n => questionForm(helper, n, Object.values(questionsData)[n - 1]))}
 
         <article class="editor-question">
           <div class="editor-input">
@@ -62,22 +70,25 @@ function createTemplate(ctx, questionNumbers, helper) {
 
 /**
  * Question form for create view
+ * @param {import("@src/types").QuizHelper} helper 
+ * @param {Number} questionNum
+ * @param {Object} questionData 
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
-function questionForm(helper, questionNum) {
+function questionForm(helper, questionNum, questionData) {
   return html` 
   <article class="editor-question question-art">
     <div class="layout">
       <div class="question-control">
-        <button type="submit" form="question-${questionNum}" class="input submit action createBtn"><i class="fas fa-check-double"></i> Create</button>
+        <button type="submit" form="question-${questionNum}" class="input submit action createBtn"><i class="fas fa-check-double"></i> Save</button>
         <button @click=${helper.onRemoveQuestion} class="input submit action"><i class="fas fa-trash-alt"></i> Remove</button>
       </div>
       <h3>Question ${questionNum}</h3>
     </div>
     <form class="question-form" id="question-${questionNum}" @submit=${createSubmitHandler(helper.createQuestionData)}>
-      <textarea class="input editor-input editor-text" name="text" placeholder="Enter question"></textarea>
-        ${formInputQuestion(questionNum, [null, null, null], helper.onRemoveAnswer)}
-        <button type="button" class="input submit action">
+      <textarea class="input editor-input editor-text" name="text" placeholder="Enter question" .value=${questionData.text} ></textarea>
+        ${formInputQuestion(questionNum, questionData, helper.onRemoveAnswerLine)}
+        <button @click=${helper.addAnswerLine} type="button" class="input submit action">
           <i class="fas fa-plus-circle"></i>
           Add answer
         </button>
@@ -91,7 +102,7 @@ const quizData = {
   topic: "",
   title: "",
   questionCount: 0,
-  ownerId: "",
+  ownerId: {},
 };
 
 
@@ -99,5 +110,5 @@ const quizData = {
 export function showCreate(ctx) {
   const helper = quizHelper(ctx, createTemplate, quizData);
   quizData.ownerId = ctx.user.objectId;
-  ctx.render(createTemplate(ctx, 0, helper));
+  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: ""}));
 }
