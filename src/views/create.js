@@ -1,6 +1,6 @@
 import { html } from "@lit-html/lit-html.js";
 import { quizHelper } from "@src/data/quizHelper.js";
-import { createSubmitHandler } from "@src/util.js";
+import { createSubmitHandler, pointer } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 import { formInputQuestion } from "@src/views/partials.js";
 
@@ -94,7 +94,7 @@ function questionForm(helper, questionNum, questionData) {
         </button>
       </div>
     </form>
-    <!-- <div class="loading-overlay working"></div> -->
+    <div id="saved-${questionNum}"></div>
   </article>`;
 }
 
@@ -102,13 +102,13 @@ const quizData = {
   topic: "",
   title: "",
   questionCount: 0,
-  ownerId: {},
+  ownerId: pointer("_User", ""),
 };
 
 
 /**@param {import("@src/types").PageContext} ctx  */
 export function showCreate(ctx) {
   const helper = quizHelper(ctx, createTemplate, quizData);
-  quizData.ownerId = ctx.user.objectId;
-  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: ""}));
+  quizData.ownerId.objectId = ctx.user.objectId;
+  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "")}));
 }
