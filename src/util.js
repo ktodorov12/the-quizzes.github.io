@@ -34,3 +34,17 @@ export function createSubmitHandler(callback) {
     callback(Object.fromEntries(entries), e.target);
   };
 }
+
+/**
+ * Creates pointer for given class and for certain object
+ * @param {string} className - the class in back4App to which the pointer points
+ * @param {string} refferencedObjectId - the refferenced objects's ID
+ * @returns 
+ */
+export function pointer(className, refferencedObjectId) {
+  return { "__type": "Pointer", "className": className, "objectId": refferencedObjectId }
+}
+
+export function findEmptyQuestion(question) {
+  return question.text == "" || question.answers.includes(null) || question.correctIndex == - 1;
+}

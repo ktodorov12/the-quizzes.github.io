@@ -68,7 +68,7 @@ export const del = (url) => requester("delete", url);
 
 /**
  * @typedef {Object} Pointer
- * @property {string} _type
+ * @property {string} __type
  * @property {string} className
  * @property {string} objectId
  */
