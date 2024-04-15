@@ -1,8 +1,9 @@
 import { html } from "@lit-html/lit-html.js";
+import { getAllData } from "@src/data/data.js";
 import { quizHelper } from "@src/data/quizHelper.js";
 import { createSubmitHandler, pointer } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
-import { formInputQuestion } from "@src/views/partials.js";
+import { formInputQuestion, topicOption } from "@src/views/partials.js";
 
 /**
  * Main template for the create view
@@ -12,7 +13,7 @@ import { formInputQuestion } from "@src/views/partials.js";
  * @param {import("@src/types").QuestionData} questionsData 
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
-function createTemplate(ctx, questionNumbers, helper, questionsData) {
+function createTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
   return html` ${
     navigationTemplate(ctx)}
     <section id="editor">
@@ -29,11 +30,12 @@ function createTemplate(ctx, questionNumbers, helper, questionsData) {
           <label class="editor-label layout">
             <span class="label-col">Topic:</span>
             <select class="input i-med" name="topic">
-              <option value="all">All Categories</option>
-              <option value="it">Languages</option>
-              <option value="hardware">Hardware</option>
-              <option value="software">Tools and Software</option>
+                ${allTopics.map(topicOption)}
             </select>
+          </label>
+          <label class="editor-label layout">
+            <span class="label-col">Description:</span>
+            <textarea class="input i-med" name="description"></textarea>
           </label>
           <input class="input submit action" type="submit" value="Create Quiz" />
         </form>
@@ -102,13 +104,15 @@ const quizData = {
   topic: "",
   title: "",
   questionCount: 0,
+  description: "",
   ownerId: pointer("_User", ""),
 };
 
 
 /**@param {import("@src/types").PageContext} ctx  */
-export function showCreate(ctx) {
+export async function showCreate(ctx) {
+  const allTopics = await getAllData("quizTopic");
   const helper = quizHelper(ctx, createTemplate, quizData);
   quizData.ownerId.objectId = ctx.user.objectId;
-  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "")}));
+  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "")}, allTopics.results));
 }

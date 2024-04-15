@@ -1,13 +1,20 @@
 import { createData } from "@src/data/data.js";
 import { findEmptyQuestion, pointer } from "@src/util.js";
+import { loading } from "@src/views/partials.js";
 
 /**
  * @param {import("@src/types").PageContext} ctx
  * @param {Function} template - template to render, usually createTemplate
- * @param {{topic: string, title: string, questionCount: number, ownerId: import("./requester").Pointer}} quizData
+ * @param {{
+ * topic: string, 
+ * title: string, 
+ * questionCount: number, 
+ * description: string,
+ * ownerId: import("./requester").Pointer}} quizData
+ * @param {Object} allTopics 
  * @returns {import("@src/types").QuizHelper}
  */
-export function quizHelper(ctx, template, quizData) {
+export function quizHelper(ctx, template, quizData, allTopics) {
   let questionNumbers = 0;
   let questionsData = {};
 
@@ -24,7 +31,7 @@ export function quizHelper(ctx, template, quizData) {
 
   /**
    * Begins quiz creation with a title and topic
-   * @param {{title: string, topic: string}} data
+   * @param {{title: string, topic: string, description: string}} data
    * @param {HTMLFormElement} form 
    * @returns {void}
    */
@@ -42,6 +49,7 @@ export function quizHelper(ctx, template, quizData) {
 
     quizData.title = data.title;
     quizData.topic = data.topic;
+    quizData.description = data.description
 
     addQuestionForm();
   }
@@ -50,7 +58,7 @@ export function quizHelper(ctx, template, quizData) {
   function addQuestionForm() {
     questionNumbers++;
     questionsData[`question-${questionNumbers}`] = createQuestion();
-    ctx.render(template(ctx, questionNumbers, helper, questionsData));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
   }
 
   async function submitQuiz() {
@@ -69,7 +77,7 @@ export function quizHelper(ctx, template, quizData) {
     }
     quizData.questionCount = savedQuestions.length;
     try {
-      //TODO add loader here
+      loading()
       const quiz = await createData("quizzes", quizData);
   
       savedQuestions.forEach(async (question) => {
@@ -78,7 +86,6 @@ export function quizHelper(ctx, template, quizData) {
         await createData("solutions", { quizId: pointer("quizzes", quiz.objectId), correct: question.correctIndex });
       });
       ctx.page.redirect("/");
-      //TODO remove loader here
     } catch (error) {
       ctx.page.redirect("/create");
       alert(error.message);
@@ -131,7 +138,7 @@ export function quizHelper(ctx, template, quizData) {
     }
     questionNumbers--;
 
-    ctx.render(template(ctx, questionNumbers, helper, questionsData));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
   }
 
   /**
@@ -143,7 +150,7 @@ export function quizHelper(ctx, template, quizData) {
   function addAnswerLine(e) {
     const form = e.currentTarget.parentElement;
     questionsData[form.id].answers.push(null);
-    ctx.render(template(ctx, questionNumbers, helper, questionsData));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
   }
 
   /**
@@ -158,7 +165,7 @@ export function quizHelper(ctx, template, quizData) {
     const answerIndex = Number(answerLine.querySelector("input").value);
     questionsData[form.id].answers.splice(answerIndex, 1);
     questionsData[form.id].correctIndex--;
-    ctx.render(template(ctx, questionNumbers, helper, questionsData));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
   }
 }
 
