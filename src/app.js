@@ -8,14 +8,19 @@ import { showHome } from "@src/views/home.js";
 import { showLoginView } from "@src/views/login.js";
 import { showRegister } from "@src/views/register.js";
 import { showCreate } from "@src/views/create.js";
+import { dashboardView } from "@src/views/dashoard.js";
+import { showDetails } from "@src/views/details.js";
 
 page(session());
 page(renderer(document.querySelector("main")));
+page(loading())
 
 page("/", showHome);
-page("/login", loading(), showLoginView);
-page("/register", loading(), showRegister);
-page("/create", showCreate)
+page("/login", showLoginView);
+page("/register", showRegister);
+page("/create", showCreate);
+page("/dashboard", dashboardView);
+page("/details/:id", showDetails);
 
-page(showHome);
+page(loading(), showHome);
 page.start();

@@ -11,16 +11,12 @@ const apiKey = "BDfgK1OMAfyEIuJkFNRz0bfFmrDru2rbIAoaY25C";
  * @param {Object} data
  */
 async function requester(method, url, data) {
-  /**
-   * @type {{method: string, headers: {}, body: object}}
-   */
   const options = {
     method,
     headers: {
       "X-Parse-Application-Id": appId,
       "X-Parse-JavaScript-Key": apiKey,
     },
-    body: {},
   };
 
   if (data) {
