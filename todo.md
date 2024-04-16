@@ -6,7 +6,7 @@
 [y] Create backend project
 - [X] Create application in Back4App
 - [X] Create primary collection
-- [/] Setup access control
+- [X] Setup access control
 - [X] Test using Postman
 [X] Create frontend app framework
 - [X] Initialize router and rendering libs
@@ -17,11 +17,11 @@
 - [X] Home
 - [X] Login
 - [X] Register
-- [ ] Create
-- [ ] Catalog
-    * [ ] Create seacrh bar with filters
-- [ ] Details
-    * [ ] Only user can solve quizes
+- [X] Create
+- [X] Catalog
+    * [X] Create seacrh bar with filters
+- [X] Details
+    * [X] Only user can solve quizes
 - [ ] Edit
 - [ ] Delete
 - [ ] Contest mode
