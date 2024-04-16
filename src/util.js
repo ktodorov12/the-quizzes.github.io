@@ -48,3 +48,18 @@ export function pointer(className, refferencedObjectId) {
 export function findEmptyQuestion(question) {
   return question.text == "" || question.answers.includes(null) || question.correctIndex == - 1;
 }
+
+/**
+ * Parses given query into object with keys and values
+ * @param {string} query 
+ * @returns {Object}
+ */
+export function parseQuery(query) {
+  if (!query) {
+      return null;
+  }
+
+  return Object.fromEntries(query
+      .split('&')
+      .map(prop => prop.split('=')));
+}
