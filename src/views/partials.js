@@ -1,41 +1,41 @@
 import { html } from "@lit-html/lit-html.js";
 
 export function loading() {
-  return html`    
+  return html` 
   <div class="pad-large alt-page async">
-  <div class="sk-cube-grid">
-    <div class="sk-cube sk-cube1"></div>
-    <div class="sk-cube sk-cube2"></div>
-    <div class="sk-cube sk-cube3"></div>
-    <div class="sk-cube sk-cube4"></div>
-    <div class="sk-cube sk-cube5"></div>
-    <div class="sk-cube sk-cube6"></div>
-    <div class="sk-cube sk-cube7"></div>
-    <div class="sk-cube sk-cube8"></div>
-    <div class="sk-cube sk-cube9"></div>
-  </div>
-</div>`;
+    <div class="sk-cube-grid">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+    </div>
+  </div>`;
 }
 
 export function formInputQuestion(questionNum, questionData, onRemove) {
-  return questionData.answers.map((answer, i) => formAnswerQuestions(questionNum, answer, onRemove, i, questionData.correctIndex))
+  return questionData.answers.map((answer, i) => formAnswerQuestions(questionNum, answer, onRemove, i, questionData.correctIndex));
 }
 
 function formAnswerQuestions(numQuestion, answer, onRemove, answerIndex, radioIndex) {
-  return html`
+  return html` 
   <div class="editor-input">
     <label class="radio">
       <input class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} ?checked=${radioIndex == answerIndex} />
       <i class="fas fa-check-circle"></i>
     </label>
-    
+
     <input class="input" type="text" name="answer-${answerIndex}" .value=${answer} />
     <button @click=${onRemove} type="button" class="input submit action"><i class="fas fa-trash-alt"></i></button>
-  </div>`
+  </div>`;
 }
 
 export function topicOption(topic) {
-  return html`<option value="${topic.value}">${topic.textContent}</option>`
+  return html`<option value="${topic.value}">${topic.textContent}</option>`;
 }
 
 export function quizCard(quiz) {
@@ -55,4 +55,28 @@ export function quizCard(quiz) {
       </div>
     </article>
   `;
+}
+
+export function contestNavQuestionIndexAnchor() {
+  return html`<a class="q-index" href="#"></a>`;
+}
+
+export function contestQuestion(question, questionIndex) {
+  return html` 
+  <p class="q-text">${question.text}</p>
+
+    <div>
+      ${question
+        .answers
+        .map((answer, i) => contestAnswerLabel(answer, questionIndex, i))}
+    </div>`;
+}
+
+function contestAnswerLabel(answer, numQuestion, answerIndex) {
+  return html`      
+  <label class="q-answer radio">
+    <input class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} />
+    <i class="fas fa-check-circle"></i>
+    ${answer}
+  </label>`
 }
