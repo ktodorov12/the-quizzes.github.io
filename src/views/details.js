@@ -1,5 +1,5 @@
 import { html } from "@lit-html/lit-html.js";
-import { getDataDetails } from "@src/data/data.js";
+import { getDataDetails, getUserById } from "@src/data/data.js";
 import { updateTopic } from "@src/data/dataUpdate.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 
@@ -16,7 +16,7 @@ function detailsTemplate(ctx, quiz) {
       <div class="pad-large alt-page">
         <article class="details">
           <h1>${quiz.title}</h1>
-          <span class="quiz-topic">A quiz by <a href="#">${ctx.user?.username}</a> on the topic of ${quiz.topic}</span>
+          <span class="quiz-topic">A quiz by <a href="#">${quiz.ownerName.username}</a> on the topic of ${quiz.topic}</span>
           <div class="quiz-meta">
             <span>${quiz.questionCount} Questions</span>
             <span>|</span>
@@ -26,7 +26,7 @@ function detailsTemplate(ctx, quiz) {
 
           ${!!ctx.user
             ? html` <div>
-                <a class="cta action" href="#">Begin Quiz</a>
+                <a class="cta action" href="/contest/${quiz.objectId}/${1}">Begin Quiz</a>
               </div>`
             : null}
         </article>
@@ -43,5 +43,6 @@ export async function showDetails(ctx) {
   const quizId = ctx.params.id;
   const quizDetails = await getDataDetails("quizzes", quizId);
   const updated = await updateTopic(quizDetails);
+  updated[0].ownerName = await getUserById(updated[0].ownerId.objectId);
   ctx.render(detailsTemplate(ctx, updated[0]));
 }
