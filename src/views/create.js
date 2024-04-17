@@ -112,7 +112,7 @@ const quizData = {
 /**@param {import("@src/types").PageContext} ctx  */
 export async function showCreate(ctx) {
   const allTopics = await getAllData("quizTopic");
-  const helper = quizHelper(ctx, createTemplate, quizData);
+  const helper = quizHelper(ctx, createTemplate, quizData, allTopics.results);
   quizData.ownerId.objectId = ctx.user.objectId;
   ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "")}, allTopics.results));
 }

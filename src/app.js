@@ -10,6 +10,7 @@ import { showRegister } from "@src/views/register.js";
 import { showCreate } from "@src/views/create.js";
 import { dashboardView } from "@src/views/dashoard.js";
 import { showDetails } from "@src/views/details.js";
+import { showContest } from "@src/views/contestMode.js";
 
 page(session());
 page(renderer(document.querySelector("main")));
@@ -21,6 +22,7 @@ page("/register", showRegister);
 page("/create", showCreate);
 page("/dashboard", dashboardView);
 page("/details/:id", showDetails);
+page("/contest/:id/:num", showContest)
 
 page(loading(), showHome);
 page.start();
