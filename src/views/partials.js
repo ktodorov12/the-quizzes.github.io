@@ -17,10 +17,26 @@ export function loading() {
   </div>`;
 }
 
+/**
+ * 
+ * @param {number} questionNum - Number of the question
+ * @param {Object} questionData - Data stored into the question / Correct index is needed
+ * @param {Function} onRemove 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
 export function formInputQuestion(questionNum, questionData, onRemove) {
   return questionData.answers.map((answer, i) => formAnswerQuestions(questionNum, answer, onRemove, i, questionData.correctIndex));
 }
 
+/**
+ * 
+ * @param {number} numQuestion - Number of the question
+ * @param {string} answer - Text of the answer
+ * @param {Function} onRemove 
+ * @param {number} answerIndex 
+ * @param {number} radioIndex 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
 function formAnswerQuestions(numQuestion, answer, onRemove, answerIndex, radioIndex) {
   return html` 
   <div class="editor-input">
@@ -57,25 +73,53 @@ export function quizCard(quiz) {
   `;
 }
 
-export function contestNavQuestionIndexAnchor() {
-  return html`<a class="q-index" href="#"></a>`;
+/**
+ * 
+ * @param {string} quizId 
+ * @param {number} i - Index of the anchor 
+ * @param {number | undefined} answered - - Checks data to see if the number was answered/stored
+ * @param {number} num - Number of the question
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+export function contestNavQuestionIndexAnchor(quizId, i, answered, num) {
+  let classA = "q-index";
+  if (answered !== undefined) classA += " q-answered";
+  if (num == i + 1) classA += " q-current";
+  return html` <a id="question-${i + 1}" class=${classA} href="/contest/${quizId}/${i + 1}"></a> `;
 }
 
-export function contestQuestion(question, questionIndex) {
+/**
+ * 
+ * @param {Object} question - The question that will be rendered
+ * @param {number} questionIndex 
+ * @param {Function} onClick 
+ * @param {number | undefined} answered - Checks data to see if the number was answered/stored
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+export function contestQuestion(question, questionIndex, onClick, answered) {
   return html` 
   <p class="q-text">${question.text}</p>
 
     <div>
       ${question
         .answers
-        .map((answer, i) => contestAnswerLabel(answer, questionIndex, i))}
+        .map((answer, i) => contestAnswerLabel(answer, questionIndex, i, onClick, answered))}
     </div>`;
 }
 
-function contestAnswerLabel(answer, numQuestion, answerIndex) {
+/**
+ * 
+ * @param {string} answer - The text from the question
+ * @param {number} numQuestion - Index of the question
+ * @param {number} answerIndex - Index of the answer inside of the question
+ * @param {Function} onClick 
+ * @param {number | undefined} answered - Checks data to see if the number was answered/stored
+ * @returns 
+ */
+function contestAnswerLabel(answer, numQuestion, answerIndex, onClick, answered) {
   return html`      
   <label class="q-answer radio">
-    <input class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} />
+    <input @click=${onClick} class="input" type="radio" name="question-${numQuestion}" value=${answerIndex} ?checked=${answered == answerIndex} />
     <i class="fas fa-check-circle"></i>
     ${answer}
   </label>`
