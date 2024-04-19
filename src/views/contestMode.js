@@ -1,5 +1,6 @@
 import { html } from "@lit-html/lit-html.js";
-import { getAllItemsForOneQuiz, getDataDetails } from "@src/data/data.js";
+import { getAllItemsForOneQuiz, getDataDetails, updateData } from "@src/data/data.js";
+import { setSessionData } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 import { contestNavQuestionIndexAnchor, contestQuestion } from "@src/views/partials.js";
 
@@ -13,9 +14,10 @@ let answeredIndexes = {};
  * @param {Object} quiz - Given quiz
  * @param {Object} questions - All questions in the quiz
  * @param {Function} clickRadioBtn  
+ * @param {Function} submitAnswers 
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
-function contestTemplate(ctx, num, quiz, questions, clickRadioBtn) {
+function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers) {
   return html` 
   <div @click=${() => answeredIndexes = {}}>${navigationTemplate(ctx)}</div>
     <section id="quiz">
@@ -36,7 +38,7 @@ function contestTemplate(ctx, num, quiz, questions, clickRadioBtn) {
             <a class="action" href="/contest/${quiz.objectId}/1" @click=${() => (answeredIndexes = {})}><i class="fas fa-sync-alt"></i> Start over</a>
             <div class="right-col">
               <a class="action" href="/contest/${quiz.objectId}/${arithmetics["+"](num, questions.length)}">Next <i class="fas fa-arrow-right"></i></a>
-              <a class="action" href="#">Submit answers</a>
+              <a class="action" @click=${submitAnswers} href="javascript:void(0)">Submit answers</a>
             </div>
           </nav>
         </article>
@@ -74,24 +76,42 @@ export async function showContest(ctx) {
     quizCache[id + "_questions"] = questions;
   }
 
-  const solutions = await getAllItemsForOneQuiz("solutions", quiz.objectId);
   // Render the contest template with the fetched data
-  ctx.render(contestTemplate(ctx, num, quiz, questions.results, clickRadioBtn));
+  ctx.render(contestTemplate(ctx, num, quiz, questions.results, clickRadioBtn, submitAnswers));
+
+  async function submitAnswers() {
+    if (Object.entries(questions.results).length != Object.entries(answeredIndexes).length) {
+      const agree = confirm("Now all questions were answered, do you want to proceed?");
+      if (!agree) return
+    }
+    setSessionData("quiz", quiz);
+    setSessionData("questions", questions.results);
+    setSessionData("answers", answeredIndexes);
+    answeredIndexes = {};
+
+    quiz.timesTaken++
+    delete quiz.updatedAt
+    delete quiz.createdAt
+    await updateData("quizzes", quiz.objectId, quiz);
+
+    ctx.page.redirect("/results");
+  }
+
+  function clickRadioBtn(e) {
+    const targetName = e.currentTarget.name;
+    const questionNum = targetName.split("-")[1];
+    const radio = document.getElementById(targetName);
+    radio.classList.add("q-answered");
+  
+    answeredIndexes[questionNum] = Number(e.currentTarget.value);
+  
+    const span = document.getElementById("remaining");
+    let context = span.textContent.split(" ");
+    context[0] =  String(Object.entries(questions.results).length - Object.keys(answeredIndexes).length);
+    span.textContent = context.join(" ");
+  }
 }
 
-function clickRadioBtn(e) {
-  const targetName = e.currentTarget.name;
-  const questionNum = targetName.split("-")[1];
-  const radio = document.getElementById(targetName);
-  radio.classList.add("q-answered");
-
-  const span = document.getElementById("remaining");
-  let context = span.textContent.split(" ");
-  context[0] = String(Number(context[0]) - 1);
-  span.textContent = context.join(" ");
-
-  answeredIndexes[questionNum] = Number(e.currentTarget.value);
-}
 
 const arithmetics = {
   "-": (num) => (num - 1 < 1 ? 1 : num - 1),
