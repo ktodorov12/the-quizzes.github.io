@@ -114,7 +114,7 @@ export function contestQuestion(question, questionIndex, onClick, answered) {
  * @param {number} answerIndex - Index of the answer inside of the question
  * @param {Function} onClick 
  * @param {number | undefined} answered - Checks data to see if the number was answered/stored
- * @returns 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function contestAnswerLabel(answer, numQuestion, answerIndex, onClick, answered) {
   return html`      
@@ -124,3 +124,58 @@ function contestAnswerLabel(answer, numQuestion, answerIndex, onClick, answered)
     ${answer}
   </label>`
 }
+
+/**
+ * @param {number} numQuestion 
+ * @param {object} question
+ * @param {Function} onClick 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+export function previewAnswer(numQuestion, question, onClick) {
+  return html`
+  <article class="preview">
+      <span class="${question.isCorrect ? "s-correct" : "s-incorrect"}">
+          Question ${numQuestion + 1}
+          <i class="${question.isCorrect ? "fas fa-check" : "fas fa-times"}"></i>
+      </span>
+      <div class="right-col">
+          <button @click=${onClick} class="action">${question.isCorrect ? "See question" : "Reveal answer"}</button>
+      </div>
+
+      <div id="hiddenContent" style="display: none">
+        <p>${question.text}</p>
+          ${question.answers.map((answer, i) => divAnswer(answer, question.answered, i, question.correctIndex))}
+      </div>
+  </article>
+  `
+}
+
+/**
+ * 
+ * @param {string} answer 
+ * @param {number} answerIndex 
+ * @param {number} currIndex 
+ * @param {number} correctIndex 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+function divAnswer(answer, answerIndex, currIndex, correctIndex) {
+  return html`        
+  <div class="s-answer">
+  <span class="${ternaryCondition("s-correct", "s-incorrect")}">
+      ${answer}
+      <i class="${ternaryCondition("fas fa-check", "fas fa-times")}"></i>
+      ${ternaryCondition("Correct answer", "Your choice")}
+  </span>
+</div>`
+
+  function ternaryCondition(whenCorrect, whenWrong) {
+    return currIndex == answerIndex
+      ? answerIndex == correctIndex
+        ? whenCorrect
+        : whenWrong
+      : currIndex == correctIndex
+        ? whenCorrect
+        : null
+  }
+}
+
