@@ -1,5 +1,17 @@
+export function setSessionData(name, data) {
+  sessionStorage.setItem(name, JSON.stringify(data));
+}
+
+export function getSessionData(name) {
+  return JSON.parse(sessionStorage.getItem(name));
+}
+
+export function removeSessionData(name) {
+  sessionStorage.removeItem(name);
+}
+
 export function setUserData(data) {
-  sessionStorage.setItem("user", JSON.stringify(data));
+  setSessionData("user", data)
 }
 
 export function getUserData() {
@@ -7,7 +19,7 @@ export function getUserData() {
 }
 
 export function clearUserData() {
-  sessionStorage.removeItem("user");
+  removeSessionData("user");
 }
 
 export function getUserId() {
