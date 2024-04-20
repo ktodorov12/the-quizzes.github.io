@@ -25,7 +25,7 @@ function homeTemplate(ctx, quizes) {
 
       <div class="pad-large alt-page">
         <h2>Our most recent quiz:</h2>
-          ${quizes.slice(0, 3).map(quizCard)}
+          ${quizes.slice(0, 3).map((quiz) => quizCard(quiz))}
         <div>
           <a class="action cta" href="/dashboard">Browse all quizes</a>
         </div>

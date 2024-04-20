@@ -16,7 +16,7 @@ export function navigationTemplate(ctx) {
             ? html`
             <div id="user-nav">
                 <a class="nav-link" href="/create">Create</a>
-                <a class="nav-link profile-link" href="#"><i class="fas fa-user-circle"></i></a>
+                <a class="nav-link profile-link" href="/profile/${ctx.user.objectId}"><i class="fas fa-user-circle"></i></a>
                 <a id="logoutBtn" class="nav-link" @click=${() => onLogout(ctx.page)} href="javascript:void(0)">Logout</a>
             </div>`
             : html`           
