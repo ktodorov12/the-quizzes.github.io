@@ -54,14 +54,23 @@ export function topicOption(topic) {
   return html`<option value="${topic.value}">${topic.textContent}</option>`;
 }
 
-export function quizCard(quiz) {
+export function quizCard(quiz, isOwner, isProfile, onDelete) {
   return html`
     <article class="preview layout">
       <div class="right-col">
         <a class="action cta" href="/details/${quiz.objectId}">View Quiz</a>
+        ${isOwner 
+          ? html`
+            <a class="action cta" href="/edit/${quiz.objectId}"><i class="fas fa-edit"></i></a>
+            <a class="action cta" @click=${onDelete} href="javascript:void(0)"><i class="fas fa-trash-alt"></i></a>`
+          : null
+        }
       </div>
       <div class="left-col">
-        <h3>${quiz.title}</h3>
+        ${isProfile 
+          ? html`<h3><a class="quiz-title-link" href="/details/${quiz.objectId}">${quiz.title}</a></h3>`
+          : html`<h3>${quiz.title}</h3>`
+        }
         <span class="quiz-topic">Topic: ${quiz.topic}</span>
         <div class="quiz-meta">
           <span>${quiz.questionCount} questions</span>
@@ -177,5 +186,27 @@ function divAnswer(answer, answerIndex, currIndex, correctIndex) {
         ? whenCorrect
         : null
   }
+}
+
+export function profileQuizResultsTbody(quiz) {
+  const date = new Date(quiz.updatedAt);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  return html`    
+      <tbody>
+        <tr class="results-row">
+          <td class="cell-1">${day} ${monthNames[month]} ${year}</td>
+          <td class="cell-2"><a href="/details/${quiz.takenQuizId}">${quiz.participatedQuizName}</a></td>
+          <td class="cell-3 s-correct">${quiz.percentage}%</td>
+          <td class="cell-4 s-correct">${quiz.correctAnswers}/${quiz.totalAnswers} correct answers</td>
+        </tr>
+      </tbody>`
 }
 
