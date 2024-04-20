@@ -3,7 +3,7 @@
 - [X] Initialize Git repo
 - [X] Install dependencies
 - [X] Configure jsconfig.json
-[y] Create backend project
+[X] Create backend project
 - [X] Create application in Back4App
 - [X] Create primary collection
 - [X] Setup access control
@@ -23,16 +23,23 @@
 - [X] Details
     * [X] Only user can solve quizes
 - [ ] Edit
-- [ ] Delete
-- [ ] Contest mode
-    * [ ] Only registered users can attempt
-    * [ ] Separate view for questions
-    * [ ] Opportunity for passage from one question to another
-    * [ ] Possibility to restart the test at any moment
-- [ ] Quiz result 
-    * [ ] Formula for calculating the result
-    * [ ] Opportunity to review wrong answers
-    * [ ] Opportunity to toggle between reveal and hide answer
-- [ ] Profile page
-    * [ ] Information for all created and solved quizzes
+- [X] Delete
+- [X] Contest mode
+    * [X] Only registered users can attempt
+    * [X] Separate view for questions
+    * [X] Opportunity for passage from one question to another
+    * [X] Possibility to restart the test at any moment
+- [X] Quiz result 
+    * [X] Formula for calculating the result
+    * [X] Opportunity to review wrong answers
+    * [X] Opportunity to toggle between reveal and hide answer
+- [X] Profile page
+    * [X] Information for all created and solved quizzes
+[ ] Last checks
+ - [ ] Check all functions
+ - [ ] Check interactivity 
+ - [ ] Check usage of middlewares
+ - [ ] Check code usage
+ - [ ] Add loader for API requests
+ - [ ] Clean unneeded logic  
 [ ] Deploy to GitHub pages

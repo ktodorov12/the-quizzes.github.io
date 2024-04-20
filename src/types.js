@@ -12,6 +12,7 @@ import page from "@page/page.mjs";
  * @property {string} objectId
  * @property {string} username
  * @property {string} sessionToken
+ * @property {string} email
  */
 
 /**

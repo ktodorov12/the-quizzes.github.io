@@ -12,6 +12,8 @@ import { dashboardView } from "@src/views/dashoard.js";
 import { showDetails } from "@src/views/details.js";
 import { showContest } from "@src/views/contestMode.js";
 import { showResults } from "@src/views/result.js";
+import { showProfile } from "@src/views/profile.js";
+import { showEdit } from "@src/views/edit.js";
 
 page(session());
 page(renderer(document.querySelector("main")));
@@ -25,6 +27,8 @@ page("/dashboard", dashboardView);
 page("/details/:id", showDetails);
 page("/contest/:id/:num", showContest);
 page("/results", showResults);
+page("/profile/:id", showProfile);
+page("/edit/:id", showEdit)
 
 page(loading(), showHome);
 page.start();

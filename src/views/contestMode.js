@@ -1,5 +1,5 @@
 import { html } from "@lit-html/lit-html.js";
-import { getAllItemsForOneQuiz, getDataDetails, updateData } from "@src/data/data.js";
+import { getAllDataForOneItem, getDataDetails, updateData } from "@src/data/data.js";
 import { setSessionData } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 import { contestNavQuestionIndexAnchor, contestQuestion } from "@src/views/partials.js";
@@ -15,9 +15,10 @@ let answeredIndexes = {};
  * @param {Object} questions - All questions in the quiz
  * @param {Function} clickRadioBtn  
  * @param {Function} submitAnswers 
+ * @param {Function} resetQuiz 
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
-function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers) {
+function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers, resetQuiz) {
   return html` 
   <div @click=${() => answeredIndexes = {}}>${navigationTemplate(ctx)}</div>
     <section id="quiz">
@@ -35,7 +36,7 @@ function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers
           <nav class="q-control">
             <span id="remaining" class="block">${questions.length - Object.entries(answeredIndexes).length} questions remaining</span>
             <a class="action" href="/contest/${quiz.objectId}/${arithmetics["-"](num)}"><i class="fas fa-arrow-left"></i> Previous</a>
-            <a class="action" href="/contest/${quiz.objectId}/1" @click=${() => (answeredIndexes = {})}><i class="fas fa-sync-alt"></i> Start over</a>
+            <a class="action" href="javascript:void(0)" @click=${resetQuiz}><i class="fas fa-sync-alt"></i> Start over</a>
             <div class="right-col">
               <a class="action" href="/contest/${quiz.objectId}/${arithmetics["+"](num, questions.length)}">Next <i class="fas fa-arrow-right"></i></a>
               <a class="action" @click=${submitAnswers} href="javascript:void(0)">Submit answers</a>
@@ -72,18 +73,28 @@ export async function showContest(ctx) {
   if (quizCache[id + "_questions"]) {
     questions = quizCache[id + "_questions"];
   } else {
-    questions = await getAllItemsForOneQuiz("questions", quiz.objectId);
+    questions = await getAllDataForOneItem("questions", quiz.objectId, "quizId", "quizzes");
     quizCache[id + "_questions"] = questions;
   }
 
   // Render the contest template with the fetched data
-  ctx.render(contestTemplate(ctx, num, quiz, questions.results, clickRadioBtn, submitAnswers));
+  ctx.render(contestTemplate(ctx, num, quiz, questions.results, clickRadioBtn, submitAnswers, resetQuiz));
+
+  function resetQuiz() {
+    const agree = confirm("Do you want to reset you attempt?");
+    if (!agree) return;
+    answeredIndexes = {};
+    ctx.page.redirect(`/contest/${quiz.objectId}/1`)
+  }
 
   async function submitAnswers() {
     if (Object.entries(questions.results).length != Object.entries(answeredIndexes).length) {
       const agree = confirm("Now all questions were answered, do you want to proceed?");
       if (!agree) return
     }
+    const agree = confirm("Do you want to finish the attempt?");
+    if(!agree) return
+    
     setSessionData("quiz", quiz);
     setSessionData("questions", questions.results);
     setSessionData("answers", answeredIndexes);
