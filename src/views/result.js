@@ -1,11 +1,16 @@
 import { html } from "@lit-html/lit-html.js";
-import { getSessionData, removeSessionData } from "@src/util.js";
+import { createData, getResultsForQuiz, updateData } from "@src/data/data.js";
+import { getSessionData, pointer, removeSessionData } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 import { previewAnswer } from "@src/views/partials.js";
 
 /**
  *
  * @param {import("@src/types").PageContext} ctx
+ * @param {Object} quiz 
+ * @param {Object} questions 
+ * @param {Number} percentage 
+ * @param {Number} correct 
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function resultTemplate(ctx, quiz, questions, correct, percentage) {
@@ -32,7 +37,7 @@ function resultTemplate(ctx, quiz, questions, correct, percentage) {
  *
  * @param {import("@src/types").PageContext} ctx
  */
-export function showResults(ctx) {
+export async function showResults(ctx) {
   const quiz = getSessionData("quiz");
   const questions = getSessionData("questions");
   const answers = getSessionData("answers");
@@ -47,7 +52,28 @@ export function showResults(ctx) {
   });
 
   const correct = questions.filter(q => q.isCorrect == true).length;
-  const percentage = Math.floor((correct / questions.length) * 100)
+  const percentage = Math.floor((correct / questions.length) * 100);
+
+  const res = {
+    totalAnswers: questions.length,
+    correctAnswers: correct,
+    percentage: Math.floor((correct / questions.length) * 100),
+    participatedQuizName: quiz.title,
+    takenQuizId: quiz.objectId,
+    participatedUser: pointer("_User", ctx.user.objectId)
+  }
+
+  //Check if it was attempted and either create new attempt or update the already made one;
+  const response = await getResultsForQuiz(quiz.objectId, ctx.user.objectId);
+  const isAttempted = response.results[0]
+  if (!isAttempted) {
+    await createData("quizResults", res);
+  } else {
+    if (isAttempted.percentage < res.percentage) {
+      await updateData("quizResults", isAttempted.objectId, res);
+    }
+  }
+
   ctx.render(resultTemplate(ctx, quiz, questions, correct, percentage));
 }
 
