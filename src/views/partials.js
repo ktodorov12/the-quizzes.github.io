@@ -1,4 +1,5 @@
 import { html } from "@lit-html/lit-html.js";
+import { createSubmitHandler } from "@src/util.js";
 
 export function loading() {
   return html` 
@@ -15,6 +16,35 @@ export function loading() {
       <div class="sk-cube sk-cube9"></div>
     </div>
   </div>`;
+}
+
+/**
+ * Question form for create view
+ * @param {import("@src/types").QuizHelper} helper 
+ * @param {Number} questionNum
+ * @param {Object} questionData 
+ * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ */
+export function questionForm(helper, questionNum, questionData) {
+  return html` 
+  <article class="editor-question question-art">
+    <div class="layout">
+      <div class="question-control">
+        <button type="submit" form="question-${questionNum}" class="input submit action createBtn"><i class="fas fa-check-double"></i> Save</button>
+        <button @click=${helper.onRemoveQuestion} class="input submit action"><i class="fas fa-trash-alt"></i> Remove</button>
+      </div>
+      <h3>Question ${questionNum}</h3>
+    </div>
+    <form class="question-form" id="question-${questionNum}" @submit=${createSubmitHandler(helper.createQuestionData)}>
+      <textarea class="input editor-input editor-text" name="text" placeholder="Enter question" .value=${questionData.text} ></textarea>
+        ${formInputQuestion(questionNum, questionData, helper.onRemoveAnswerLine)}
+        <button @click=${helper.addAnswerLine} type="button" class="input submit action">
+          <i class="fas fa-plus-circle"></i>
+          Add answer
+        </button>
+    </form>
+    <div id="saved-${questionNum}"></div>
+  </article>`;
 }
 
 /**
@@ -62,7 +92,7 @@ export function quizCard(quiz, isOwner, isProfile, onDelete) {
         ${isOwner 
           ? html`
             <a class="action cta" href="/edit/${quiz.objectId}"><i class="fas fa-edit"></i></a>
-            <a class="action cta" @click=${onDelete} href="javascript:void(0)"><i class="fas fa-trash-alt"></i></a>`
+            <button class="action cta" @click=${onDelete} href="javascript:void(0)"><i class="fas fa-trash-alt"></i></button>`
           : null
         }
       </div>
