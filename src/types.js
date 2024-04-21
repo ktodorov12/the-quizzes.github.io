@@ -24,6 +24,7 @@ import page from "@page/page.mjs";
  * @property {Function} onRemoveQuestion
  * @property {Function} onRemoveAnswerLine
  * @property {Function} addAnswerLine
+ * @property {Function} editQuiz
  */
 
 /**

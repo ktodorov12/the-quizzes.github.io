@@ -5,11 +5,11 @@ import { isOwner } from "@src/util.js";
 import { navigationTemplate } from "@src/views/navigation.js";
 
 /**
- * 
- * @param {import("@src/types").PageContext} ctx 
- * @param {Object} quiz 
- * @param {import("@src/types").UserSession} creator 
- * @param {Boolean} isOwner 
+ *
+ * @param {import("@src/types").PageContext} ctx
+ * @param {Object} quiz
+ * @param {import("@src/types").UserSession} creator
+ * @param {Boolean} isOwner
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function detailsTemplate(ctx, quiz, creator, isOwner) {
@@ -47,6 +47,6 @@ export async function showDetails(ctx) {
   const quizDetails = await getDataDetails("quizzes", quizId);
   const updated = await updateTopic(quizDetails);
   const creator = await getUserById(updated[0].ownerId.objectId);
-  const owner = isOwner(creator.objectId)
+  const owner = isOwner(creator.objectId);
   ctx.render(detailsTemplate(ctx, updated[0], creator, owner));
 }

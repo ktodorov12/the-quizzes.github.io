@@ -13,7 +13,7 @@
 - [X] Create base modules (request, utils)
 - [X] Integrade with backend
 - [X] Create other middlewares
-[ ] Implement application views
+[X] Implement application views
 - [X] Home
 - [X] Login
 - [X] Register
@@ -22,7 +22,7 @@
     * [X] Create seacrh bar with filters
 - [X] Details
     * [X] Only user can solve quizes
-- [ ] Edit
+- [X] Edit
 - [X] Delete
 - [X] Contest mode
     * [X] Only registered users can attempt
@@ -35,11 +35,11 @@
     * [X] Opportunity to toggle between reveal and hide answer
 - [X] Profile page
     * [X] Information for all created and solved quizzes
-[ ] Last checks
- - [ ] Check all functions
- - [ ] Check interactivity 
- - [ ] Check usage of middlewares
- - [ ] Check code usage
- - [ ] Add loader for API requests
- - [ ] Clean unneeded logic  
-[ ] Deploy to GitHub pages
+[X] Last checks
+ - [X] Check all functions
+ - [X] Check interactivity 
+ - [X] Check usage of middlewares
+ - [X] Check code usage
+ - [X] Add loader for API requests
+ - [X] Clean unneeded logic  
+[X] Deploy to GitHub pages

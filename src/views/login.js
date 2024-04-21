@@ -40,7 +40,6 @@ export function showLoginView(ctx) {
     if (!data.username || !data.password) {
       return alert("All fields requiered");
     }
-
     await login(data);
     ctx.page.redirect("/");
   }

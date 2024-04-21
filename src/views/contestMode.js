@@ -13,14 +13,14 @@ let answeredIndexes = {};
  * @param {number} num - Number of the question given from the url
  * @param {Object} quiz - Given quiz
  * @param {Object} questions - All questions in the quiz
- * @param {Function} clickRadioBtn  
- * @param {Function} submitAnswers 
- * @param {Function} resetQuiz 
+ * @param {Function} clickRadioBtn
+ * @param {Function} submitAnswers
+ * @param {Function} resetQuiz
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers, resetQuiz) {
   return html` 
-  <div @click=${() => answeredIndexes = {}}>${navigationTemplate(ctx)}</div>
+  <div @click=${() => (answeredIndexes = {})}>${navigationTemplate(ctx)}</div>
     <section id="quiz">
       <header class="pad-large">
         <h1>${quiz.title}: Question ${num} / ${questions.length}</h1>
@@ -84,25 +84,25 @@ export async function showContest(ctx) {
     const agree = confirm("Do you want to reset you attempt?");
     if (!agree) return;
     answeredIndexes = {};
-    ctx.page.redirect(`/contest/${quiz.objectId}/1`)
+    ctx.page.redirect(`/contest/${quiz.objectId}/1`);
   }
 
   async function submitAnswers() {
     if (Object.entries(questions.results).length != Object.entries(answeredIndexes).length) {
       const agree = confirm("Now all questions were answered, do you want to proceed?");
-      if (!agree) return
+      if (!agree) return;
     }
     const agree = confirm("Do you want to finish the attempt?");
-    if(!agree) return
-    
+    if (!agree) return;
+
     setSessionData("quiz", quiz);
     setSessionData("questions", questions.results);
     setSessionData("answers", answeredIndexes);
     answeredIndexes = {};
 
-    quiz.timesTaken++
-    delete quiz.updatedAt
-    delete quiz.createdAt
+    quiz.timesTaken++;
+    delete quiz.updatedAt;
+    delete quiz.createdAt;
     await updateData("quizzes", quiz.objectId, quiz);
 
     ctx.page.redirect("/results");
@@ -113,16 +113,15 @@ export async function showContest(ctx) {
     const questionNum = targetName.split("-")[1];
     const radio = document.getElementById(targetName);
     radio.classList.add("q-answered");
-  
+
     answeredIndexes[questionNum] = Number(e.currentTarget.value);
-  
+
     const span = document.getElementById("remaining");
     let context = span.textContent.split(" ");
-    context[0] =  String(Object.entries(questions.results).length - Object.keys(answeredIndexes).length);
+    context[0] = String(Object.entries(questions.results).length - Object.keys(answeredIndexes).length);
     span.textContent = context.join(" ");
   }
 }
-
 
 const arithmetics = {
   "-": (num) => (num - 1 < 1 ? 1 : num - 1),

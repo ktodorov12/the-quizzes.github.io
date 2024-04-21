@@ -1,6 +1,5 @@
 import { createData, deleteData, updateData } from "@src/data/data.js";
 import { findEmptyQuestion, pointer } from "@src/util.js";
-import { loading } from "@src/middlewares/loading.js";
 
 /**
  * @param {import("@src/types").PageContext} ctx
@@ -73,8 +72,8 @@ export function quizHelper(ctx, template, quizData, allTopics, allQuestions) {
     ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics, quizData));
   }
 
+  /**Creates quiz by the provided data*/
   async function submitQuiz(e) {
-    loading();
     const unsavedQuestions = Object.values(questionsData).filter((x) => findEmptyQuestion(x));
     if (unsavedQuestions.length > 0) {
       const isConfirmed = confirm("There are questions that have not been saved, do you want to proceed?");
@@ -91,7 +90,7 @@ export function quizHelper(ctx, template, quizData, allTopics, allQuestions) {
     quizData.questionCount = savedQuestions.length;
     try {
       e.currentTarget.disabled = true;
-      
+
       const quiz = await createData("quizzes", quizData);
 
       for (const question of savedQuestions){
@@ -106,8 +105,8 @@ export function quizHelper(ctx, template, quizData, allTopics, allQuestions) {
     }
   }
 
+  /**Edits quiz by the provided data */
   async function editQuiz(e) {
-    loading();
     const unsavedQuestions = Object.values(questionsData).filter((x) => findEmptyQuestion(x));
     if (unsavedQuestions.length > 0) {
       const isConfirmed = confirm("There are questions that have not been saved, do you want to proceed?");

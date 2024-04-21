@@ -10,7 +10,8 @@ import { quizCard } from "@src/views/partials.js";
  * @returns {import('@lit-html/lit-html.js').TemplateResult} Returns an HTML template result.
  */
 function homeTemplate(ctx, quizes) {
-  return html` ${navigationTemplate(ctx)}
+  return html` 
+  ${navigationTemplate(ctx)}
     <section id="welcome">
       <div class="hero layout">
         <div class="splash right-col"><i class="fas fa-clipboard-list"></i></div>
@@ -25,7 +26,7 @@ function homeTemplate(ctx, quizes) {
 
       <div class="pad-large alt-page">
         <h2>Our most recent quiz:</h2>
-          ${quizes.slice(0, 3).map((quiz) => quizCard(quiz))}
+        ${quizes.slice(0, 3).map((quiz) => quizCard(quiz))}
         <div>
           <a class="action cta" href="/dashboard">Browse all quizes</a>
         </div>

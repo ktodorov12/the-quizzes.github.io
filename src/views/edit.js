@@ -8,9 +8,13 @@ import { questionForm, topicOption } from "@src/views/partials.js";
 /**
  *
  * @param {import("@src/types").PageContext} ctx
+ * @param {number} questionNumbers
+ * @param {import("@src/types").QuizHelper} helper
+ * @param {import("@src/types").QuestionData} questionsData
+ * @param {Object} allTopics 
  * @returns {import("@lit-html/lit-html").TemplateResult}
  */
-function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics, quiz) {
+function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
   return html` ${navigationTemplate(ctx)}
     <section id="editor">
       <header class="pad-large">
@@ -26,7 +30,7 @@ function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics, qu
           <label class="editor-label layout">
             <span class="label-col">Topic:</span>
             <select class="input i-med" name="topic">
-                ${allTopics.map(topicOption)}
+              ${allTopics.map(topicOption)}
             </select>
           </label>
           <label class="editor-label layout">
@@ -43,10 +47,9 @@ function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics, qu
 
       <div class="pad-large alt-page">
         ${new Array(questionNumbers)
-            .fill(0)
-            .map((_, index) => index + 1)
-            .map(n => questionForm(helper, n, Object.values(questionsData)[n - 1]))
-        }
+          .fill(0)
+          .map((_, index) => index + 1)
+          .map((n) => questionForm(helper, n, Object.values(questionsData)[n - 1]))}
         <article class="editor-question">
           <div class="editor-input">
             <button @click=${helper.addQuestionForm} class="input submit action">
@@ -78,5 +81,5 @@ export async function showEdit(ctx) {
   const allTopics = await getAllData("quizTopic");
   const questions = await getAllDataForOneItem("questions", id, "quizId", "quizzes");
   const helper = quizHelper(ctx, editTemplate, quiz, allTopics.results, questions.results);
-  ctx.render(editTemplate(ctx, quiz.questionCount, helper, questions.results, allTopics.results, quiz));
+  ctx.render(editTemplate(ctx, quiz.questionCount, helper, questions.results, allTopics.results));
 }

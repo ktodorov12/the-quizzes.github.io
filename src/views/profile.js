@@ -8,9 +8,14 @@ import { profileQuizResultsTbody, quizCard } from "@src/views/partials.js";
 /**
  * 
  * @param {import("@src/types").PageContext} ctx 
+ * @param {Object} creatorData - user data for the creator of the showed quizzes in the profile
+ * @param {Boolean} currUserIsOwner - checks whether the curr user is the creator of the quizzes in the profile
+ * @param {Object} participatedQuizzes - all of the participated quizzes for the user
+ * @param {Object} createdQuizzes - all of the quizzes that the user has created  
+ * @param {Function} onDelete 
  * @returns 
  */
-function profileTemplate(ctx, creatorData, currUserIsOwner, quizzes, createdQuizzes, onDelete) {
+function profileTemplate(ctx, creatorData, currUserIsOwner, participatedQuizzes, createdQuizzes, onDelete) {
   return html` 
   ${navigationTemplate(ctx)}
   <section id="profile">
@@ -30,7 +35,7 @@ function profileTemplate(ctx, creatorData, currUserIsOwner, quizzes, createdQuiz
     </p>
     <h2>${currUserIsOwner ? "Your" : creatorData.username} Quiz Results</h2>
     <table class="quiz-results">
-        ${quizzes.map(profileQuizResultsTbody)}
+        ${participatedQuizzes.map(profileQuizResultsTbody)}
     </table>
   </article>
 </div>
@@ -70,16 +75,15 @@ export async function showProfile(ctx) {
       const agree = confirm("Do you want to delete this quiz?");
       if (!agree) return
       
+      e.currentTarget.disabled = true;
       const quizName = e.currentTarget.parentElement.parentElement.querySelector("h3 a").textContent;
-      
+
       const quiz = updatedQuizzes.find(q => q.title == quizName);
       const questions = await getAllDataForOneItem("questions", quiz.objectId, "quizId", "quizzes");
-      const answers = await getAllDataForOneItem("solutions", quiz.objectId, "quizId", "quizzes");
       const participated = await getAllParticipationsForQuiz(quiz.objectId);
       
       await deleteData("quizzes", quiz.objectId);
       deleterer("questions", questions); 
-      deleterer("solutions", answers);
       if (participated.results.length > 0) {
         deleterer("quizResults", participated);
       }

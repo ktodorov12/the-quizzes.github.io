@@ -6,11 +6,11 @@ import { navigationTemplate } from "@src/views/navigation.js";
 import { quizCard, topicOption } from "@src/views/partials.js";
 
 /**
- * 
- * @param {import("@src/types").PageContext} ctx 
- * @param {Object} quizzes 
- * @param {Function} onSearch 
- * @param {Object} allTopics 
+ *
+ * @param {import("@src/types").PageContext} ctx
+ * @param {Object} quizzes
+ * @param {Function} onSearch
+ * @param {Object} allTopics
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function dashboardTemplate(ctx, quizzes, onSearch, allTopics) {
@@ -37,7 +37,7 @@ export async function dashboardView(ctx) {
   // @ts-ignore
   const query = parseQuery(ctx.querystring);
   const allTopics = await getAllData("quizTopic");
-  let res = {}
+  let res = {};
 
   if (!query) {
     res = await getAllData("quizzes");
@@ -47,7 +47,7 @@ export async function dashboardView(ctx) {
     res = await search("quizzes", title, topic);
   }
 
-  const quizzes = await updateTopic(res)
+  const quizzes = await updateTopic(res);
   ctx.render(dashboardTemplate(ctx, quizzes, onSearch, allTopics.results));
 
   async function onSearch({ title, topic }) {

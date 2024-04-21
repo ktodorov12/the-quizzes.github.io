@@ -19,7 +19,7 @@ export function loading() {
 }
 
 /**
- * Question form for create view
+ * Question formfor create and edit views
  * @param {import("@src/types").QuizHelper} helper 
  * @param {Number} questionNum
  * @param {Object} questionData 
@@ -84,6 +84,14 @@ export function topicOption(topic) {
   return html`<option value="${topic.value}">${topic.textContent}</option>`;
 }
 
+/**
+ * 
+ * @param {Object} quiz 
+ * @param {Boolean=} isOwner -checkes if the user is the owner - mainly for profile page
+ * @param {Boolean=} isProfile - add additional data if the card is for the profile view
+ * @param {Function=} onDelete 
+ * @returns 
+ */
 export function quizCard(quiz, isOwner, isProfile, onDelete) {
   return html`
     <article class="preview layout">

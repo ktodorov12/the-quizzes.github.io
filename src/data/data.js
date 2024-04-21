@@ -11,7 +11,7 @@ const endpoints = {
 };
 
 /**
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @param {Object} data
  * @return {Promise<Object>}
  */
@@ -20,7 +20,7 @@ export async function createData(apiClass, data) {
 }
 
 /**
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @returns {Promise<Object>}
  */
 export async function getAllData(apiClass) {
@@ -28,7 +28,7 @@ export async function getAllData(apiClass) {
 }
 
 /**
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @param {string} id
  * @returns {Promise<Object>}
  */
@@ -38,7 +38,7 @@ export async function getDataDetails(apiClass, id) {
 }
 
 /**
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @param {string} id
  * @param {Object} data
  * @returns {Promise<Object>}
@@ -48,7 +48,7 @@ export async function updateData(apiClass, id, data) {
 }
 
 /**
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @param {string} id - id of the quiz to be deleted
  * @returns {Promise<Object>}
  */
@@ -58,7 +58,7 @@ export async function deleteData(apiClass, id) {
 
 /**
  * Function to search for quiz by title and topic
- * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; solutions; quizTopic; quizResults;
+ * @param {string} apiClass - The classes which are putted in the URL for the back4app request, they might be - questions; quizzes; quizTopic; quizResults;
  * @param {string} title - if there is no title it empty string should be given, for it to search all quizzes in a topic
  * @param {string} topic - Topic is either all or specified by the user, there must always be topic 
  * @returns {Promise<Object>}

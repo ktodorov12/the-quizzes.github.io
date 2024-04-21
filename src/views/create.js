@@ -7,15 +7,15 @@ import { questionForm, topicOption } from "@src/views/partials.js";
 
 /**
  * Main template for the create view
- * @param {import("@src/types").PageContext} ctx 
- * @param {Number} questionNumbers 
- * @param {import("@src/types").QuizHelper} helper 
- * @param {import("@src/types").QuestionData} questionsData 
+ * @param {import("@src/types").PageContext} ctx
+ * @param {Number} questionNumbers
+ * @param {import("@src/types").QuizHelper} helper
+ * @param {import("@src/types").QuestionData} questionsData
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function createTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
-  return html` ${
-    navigationTemplate(ctx)}
+  return html` 
+  ${navigationTemplate(ctx)}
     <section id="editor">
       <header class="pad-large">
         <h1>New quiz</h1>
@@ -30,7 +30,7 @@ function createTemplate(ctx, questionNumbers, helper, questionsData, allTopics) 
           <label class="editor-label layout">
             <span class="label-col">Topic:</span>
             <select class="input i-med" name="topic">
-                ${allTopics.map(topicOption)}
+              ${allTopics.map(topicOption)}
             </select>
           </label>
           <label class="editor-label layout">
@@ -47,9 +47,9 @@ function createTemplate(ctx, questionNumbers, helper, questionsData, allTopics) 
 
       <div class="pad-large alt-page">
         ${new Array(questionNumbers)
-            .fill(0)
-            .map((_, index) => index + 1)
-            .map(n => questionForm(helper, n, Object.values(questionsData)[n - 1]))}
+          .fill(0)
+          .map((_, index) => index + 1)
+          .map((n) => questionForm(helper, n, Object.values(questionsData)[n - 1]))}
 
         <article class="editor-question">
           <div class="editor-input">
@@ -79,11 +79,10 @@ const quizData = {
   ownerId: pointer("_User", ""),
 };
 
-
 /**@param {import("@src/types").PageContext} ctx  */
 export async function showCreate(ctx) {
   const allTopics = await getAllData("quizTopic");
   const helper = quizHelper(ctx, createTemplate, quizData, allTopics.results);
   quizData.ownerId.objectId = ctx.user.objectId;
-  ctx.render(createTemplate(ctx, 0, helper, {text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "")}, allTopics.results));
+  ctx.render(createTemplate(ctx, 0, helper, { text: "", answers: [], correctIndex: -1, quizId: pointer("quizzes", "") }, allTopics.results));
 }

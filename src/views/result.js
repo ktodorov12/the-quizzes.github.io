@@ -7,14 +7,15 @@ import { previewAnswer } from "@src/views/partials.js";
 /**
  *
  * @param {import("@src/types").PageContext} ctx
- * @param {Object} quiz 
- * @param {Object} questions 
- * @param {Number} percentage 
- * @param {Number} correct 
+ * @param {Object} quiz
+ * @param {Object} questions
+ * @param {Number} percentage
+ * @param {Number} correct
  * @returns {import("@lit-html/lit-html.js").TemplateResult}
  */
 function resultTemplate(ctx, quiz, questions, correct, percentage) {
-  return html` ${navigationTemplate(ctx)}
+  return html` 
+  ${navigationTemplate(ctx)}
     <section id="summary">
       <div class="hero layout">
         <article class="details glass">
@@ -51,21 +52,21 @@ export async function showResults(ctx) {
     question.answered = answers[i + 1];
   });
 
-  const correct = questions.filter(q => q.isCorrect == true).length;
+  const correct = questions.filter((q) => q.isCorrect == true).length;
   const percentage = Math.floor((correct / questions.length) * 100);
 
   const res = {
     totalAnswers: questions.length,
     correctAnswers: correct,
-    percentage: Math.floor((correct / questions.length) * 100),
+    percentage: percentage,
     participatedQuizName: quiz.title,
     takenQuizId: quiz.objectId,
-    participatedUser: pointer("_User", ctx.user.objectId)
-  }
+    participatedUser: pointer("_User", ctx.user.objectId),
+  };
 
   //Check if it was attempted and either create new attempt or update the already made one;
   const response = await getResultsForQuiz(quiz.objectId, ctx.user.objectId);
-  const isAttempted = response.results[0]
+  const isAttempted = response.results[0];
   if (!isAttempted) {
     await createData("quizResults", res);
   } else {
@@ -84,11 +85,11 @@ function clearStorage() {
 }
 
 function showMore(e) {
-    const btn = e.currentTarget;
-    const art = btn.parentElement.parentElement;
-    const btnText = art.querySelector(".s-incorrect") ? "Reveal answer" : "See question"
-    const hiddenContent = art.querySelector("#hiddenContent");
-    
-    hiddenContent.style.display = hiddenContent.style.display == "none" ? "block" : "none";
-    btn.textContent = btn.textContent == btnText ? "Close" : btnText;
+  const btn = e.currentTarget;
+  const art = btn.parentElement.parentElement;
+  const btnText = art.querySelector(".s-incorrect") ? "Reveal answer" : "See question";
+  const hiddenContent = art.querySelector("#hiddenContent");
+
+  hiddenContent.style.display = hiddenContent.style.display == "none" ? "block" : "none";
+  btn.textContent = btn.textContent == btnText ? "Close" : btnText;
 }
