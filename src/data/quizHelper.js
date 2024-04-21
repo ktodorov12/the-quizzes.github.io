@@ -1,23 +1,34 @@
-import { createData } from "@src/data/data.js";
+import { createData, deleteData, updateData } from "@src/data/data.js";
 import { findEmptyQuestion, pointer } from "@src/util.js";
-import { loading } from "@src/views/partials.js";
+import { loading } from "@src/middlewares/loading.js";
 
 /**
  * @param {import("@src/types").PageContext} ctx
- * @param {Function} template - template to render, usually createTemplate
+ * @param {Function} template - template to render
  * @param {{
  * topic: string, 
  * title: string, 
  * questionCount: number, 
+ * timesTaken: number,
  * description: string,
- * ownerId: import("./requester").Pointer}} quizData
+ * ownerId: import("./requester").Pointer
+ * createdAt?: string,
+ * updatedAt?: string,
+ * objectId?: string}} quizData
  * @param {Object} allTopics 
+ * @param {Object=} allQuestions 
  * @returns {import("@src/types").QuizHelper}
  */
-export function quizHelper(ctx, template, quizData, allTopics) {
-  let questionNumbers = 0;
+export function quizHelper(ctx, template, quizData, allTopics, allQuestions) {
+  let questionNumbers = quizData.questionCount;
   let questionsData = {};
-
+  let oldQuestions = [];
+  
+  if(allQuestions) {
+    allQuestions.forEach((question, i) => parseQuestions(questionsData, i, question))
+    oldQuestions = JSON.parse(JSON.stringify(allQuestions));
+  }
+  
   const helper = {
     createQuiz,
     addQuestionForm,
@@ -26,6 +37,7 @@ export function quizHelper(ctx, template, quizData, allTopics) {
     onRemoveQuestion,
     onRemoveAnswerLine,
     addAnswerLine,
+    editQuiz
   };
   return helper;
 
@@ -36,36 +48,37 @@ export function quizHelper(ctx, template, quizData, allTopics) {
    * @returns {void}
    */
   function createQuiz(data, form) {
-    if (!data.title) {
-      //TODO add form validation
-      return;
-    }
+    if (!data.title) return
     const createQuizBtn = document.getElementById("createQuiz");
-    createQuizBtn.style.display = "block";
-    createQuizBtn.querySelector("button").disabled = false;
-    // @ts-ignore
-    document.getElementById("addBtn").disabled = false;
-    form.querySelectorAll("input").forEach(i => i.disabled = true);
+
+    if(createQuizBtn) {
+      createQuizBtn.style.display = "block";
+      createQuizBtn.querySelector("button").disabled = false;
+      // @ts-ignore
+      document.getElementById("addBtn").disabled = false;
+      form.querySelectorAll("input").forEach(i => i.disabled = true);
+
+      addQuestionForm();
+    }
 
     quizData.title = data.title;
     quizData.topic = data.topic;
     quizData.description = data.description
-
-    addQuestionForm();
   }
 
   /**Adds new question form to the createTemplate */
   function addQuestionForm() {
     questionNumbers++;
     questionsData[`question-${questionNumbers}`] = createQuestion();
-    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics, quizData));
   }
 
-  async function submitQuiz() {
+  async function submitQuiz(e) {
+    loading();
     const unsavedQuestions = Object.values(questionsData).filter((x) => findEmptyQuestion(x));
     if (unsavedQuestions.length > 0) {
       const isConfirmed = confirm("There are questions that have not been saved, do you want to proceed?");
-
+      
       if (!isConfirmed) {
         //TODO add form validation;
         return console.log(unsavedQuestions);
@@ -77,17 +90,64 @@ export function quizHelper(ctx, template, quizData, allTopics) {
     }
     quizData.questionCount = savedQuestions.length;
     try {
-      loading()
+      e.currentTarget.disabled = true;
+      
       const quiz = await createData("quizzes", quizData);
-  
-      savedQuestions.forEach(async (question) => {
+
+      for (const question of savedQuestions){
         question.quizId.objectId = quiz.objectId;
         await createData("questions", question);
-        await createData("solutions", { quizId: pointer("quizzes", quiz.objectId), correct: question.correctIndex });
-      });
+      };
+      
       ctx.page.redirect("/");
     } catch (error) {
       ctx.page.redirect("/create");
+      alert(error.message);
+    }
+  }
+
+  async function editQuiz(e) {
+    loading();
+    const unsavedQuestions = Object.values(questionsData).filter((x) => findEmptyQuestion(x));
+    if (unsavedQuestions.length > 0) {
+      const isConfirmed = confirm("There are questions that have not been saved, do you want to proceed?");
+      
+      if (!isConfirmed) {
+        //TODO add form validation;
+        return console.log(unsavedQuestions);
+      }
+    }
+    const savedQuestions = Object.values(questionsData).filter((x) => !findEmptyQuestion(x));
+    if (savedQuestions.length < 1) {
+      return alert("No questions have been saved!");
+    }
+    quizData.questionCount = savedQuestions.length;
+    // @ts-ignore
+    try {
+      e.currentTarget.disabled = true;
+
+      delete quizData.createdAt
+      delete quizData.updatedAt
+      quizData.questionCount = savedQuestions.length;
+      const updateQuiz = updateData("quizzes", quizData.objectId, quizData);
+      const promises = [updateQuiz];
+      
+      for (const oldQuestion of oldQuestions) {
+        const deletePromise = deleteData("questions", oldQuestion.objectId);
+        promises.push(deletePromise)        
+      }
+
+      for (const savedQuestion of savedQuestions) {
+        savedQuestion.quizId.objectId = quizData.objectId
+        const createPromise = createData("questions", savedQuestion);
+        promises.push(createPromise);
+      }
+      await Promise.all(promises);
+
+      ctx.page.redirect(`/profile/${quizData.ownerId.objectId}`);
+    } catch (error) {
+      // @ts-ignore
+      ctx.page.redirect(`/edit/${quizData.objectId}`);
       alert(error.message);
     }
   }
@@ -138,7 +198,7 @@ export function quizHelper(ctx, template, quizData, allTopics) {
     }
     questionNumbers--;
 
-    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics, quizData));
   }
 
   /**
@@ -150,7 +210,7 @@ export function quizHelper(ctx, template, quizData, allTopics) {
   function addAnswerLine(e) {
     const form = e.currentTarget.parentElement;
     questionsData[form.id].answers.push(null);
-    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics, quizData));
   }
 
   /**
@@ -165,7 +225,7 @@ export function quizHelper(ctx, template, quizData, allTopics) {
     const answerIndex = Number(answerLine.querySelector("input").value);
     questionsData[form.id].answers.splice(answerIndex, 1);
     questionsData[form.id].correctIndex--;
-    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics));
+    ctx.render(template(ctx, questionNumbers, helper, questionsData, allTopics, quizData));
   }
 }
 
@@ -207,3 +267,18 @@ function createQuestion(data) {
  * @returns {Number}
  */
 const idParser = (id) => Number(id.split("-")[1]);
+
+/**
+ * It is used when there are existing questions so they are parsed in the correct way for the helper functions
+ * @param {Object} questionsData - Updates questions data 
+ * @param {number} num - number of the question 
+ * @param {object} question - the existing question
+ */
+function parseQuestions(questionsData, num, question) {
+  questionsData[`question-${num + 1}`] = {
+    text: question.text,
+    answers: question.answers,
+    correctIndex: question.correctIndex,
+    quizId: question.quizId,
+  }
+}
