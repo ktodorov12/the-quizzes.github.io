@@ -1,5 +1,5 @@
-import { clearUserData, setUserData } from "@src/util.js";
-import { post } from "@src/data/requester.js";
+import { clearUserData, setUserData } from ".././util.js";
+import { post } from "./requester.js";
 
 const endpoints = {
   login: "/login",

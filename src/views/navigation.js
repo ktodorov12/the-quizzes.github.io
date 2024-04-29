@@ -1,5 +1,5 @@
-import { html } from "@lit-html/lit-html.js";
-import { logout } from "@src/data/users.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { logout } from "../data/users.js";
 
 /**
  * @param {import("@src/types").PageContext} ctx

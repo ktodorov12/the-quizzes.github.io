@@ -1,9 +1,9 @@
-import { html } from "@lit-html/lit-html.js";
-import { deleteData, getAllDataForOneItem, getAllParticipationsForQuiz, getUserById } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { isOwner } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { profileQuizResultsTbody, quizCard } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { deleteData, getAllDataForOneItem, getAllParticipationsForQuiz, getUserById } from "../data/data.js";
+import { updateTopic } from "../data/dataUpdate.js";
+import { isOwner } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
+import { profileQuizResultsTbody, quizCard } from "./partials.js";
 
 /**
  * 

@@ -1,4 +1,4 @@
-import { getAllData } from "@src/data/data.js";
+import { getAllData } from "./data.js";
 
 /**
  * Takes a quiz or quizzes and changes its topic in the corresponding one

@@ -1,4 +1,4 @@
-import { getUserData } from "@src/util.js";
+import { getUserData } from ".././util.js";
 
 export function session() {
   return function (ctx, next) {

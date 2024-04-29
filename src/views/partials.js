@@ -1,5 +1,5 @@
-import { html } from "@lit-html/lit-html.js";
-import { createSubmitHandler } from "@src/util.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { createSubmitHandler } from "../util.js";
 
 export function loading() {
   return html` 

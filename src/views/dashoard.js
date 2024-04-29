@@ -1,9 +1,9 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData, search } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { createSubmitHandler, parseQuery } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { quizCard, topicOption } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData, search } from "../data/data.js";
+import { updateTopic } from "../data/dataUpdate.js";
+import { createSubmitHandler, parseQuery } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
+import { quizCard, topicOption } from "./partials.js";
 
 /**
  *

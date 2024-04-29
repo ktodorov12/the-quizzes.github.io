@@ -1,4 +1,4 @@
-import page from "@page/page.mjs";
+import page from "../lib/page/page.mjs";
 
 /**
  * @typedef {Object} PageContext

@@ -1,8 +1,8 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { quizCard } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData } from "../data/data.js";
+import { updateTopic } from "../data/dataUpdate.js";
+import { navigationTemplate } from "./navigation.js";
+import { quizCard } from "./partials.js";
 
 /**
  *

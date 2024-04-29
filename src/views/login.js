@@ -1,7 +1,7 @@
-import { html } from "@lit-html/lit-html.js";
-import { login } from "@src/data/users.js";
-import { createSubmitHandler } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { login } from "../data/users.js";
+import { createSubmitHandler } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
 
 /**
  * Template for login view

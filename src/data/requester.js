@@ -1,6 +1,6 @@
-import { clearUserData, getUserToken } from "@src/util.js";
-import { render } from "@lit-html/lit-html.js";
-import { loading } from "@src/views/partials.js";
+import { clearUserData, getUserToken } from ".././util.js";
+import { render } from "../../lib/lit-html/lit-html.js";
+import { loading } from "../views/partials.js";
 
 const host = "https://parseapi.back4app.com";
 const appId = "wiGlkOqBJqWcycdj7p7yhQbgwk6qksF26LhMIydm";

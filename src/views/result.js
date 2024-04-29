@@ -1,8 +1,8 @@
-import { html } from "@lit-html/lit-html.js";
-import { createData, getResultsForQuiz, updateData } from "@src/data/data.js";
-import { getSessionData, pointer, removeSessionData } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { previewAnswer } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { createData, getResultsForQuiz, updateData } from "../data/data.js";
+import { getSessionData, pointer, removeSessionData } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
+import { previewAnswer } from "./partials.js";
 
 /**
  *

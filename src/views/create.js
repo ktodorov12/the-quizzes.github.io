@@ -1,9 +1,9 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData } from "@src/data/data.js";
-import { quizHelper } from "@src/data/quizHelper.js";
-import { createSubmitHandler, pointer } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { questionForm, topicOption } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData } from "../data/data.js";
+import { quizHelper } from "../data/quizHelper.js";
+import { createSubmitHandler, pointer } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
+import { questionForm, topicOption } from "./partials.js";
 
 /**
  * Main template for the create view

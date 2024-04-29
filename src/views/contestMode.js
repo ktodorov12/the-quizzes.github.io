@@ -1,8 +1,8 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllDataForOneItem, getDataDetails, updateData } from "@src/data/data.js";
-import { setSessionData } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { contestNavQuestionIndexAnchor, contestQuestion } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllDataForOneItem, getDataDetails, updateData } from "../data/data.js";
+import { setSessionData } from "../util.js";
+import { navigationTemplate } from "./navigation.js";
+import { contestNavQuestionIndexAnchor, contestQuestion } from "./partials.js";
 
 const quizCache = {};
 let answeredIndexes = {};
