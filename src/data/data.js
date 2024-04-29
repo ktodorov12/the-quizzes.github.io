@@ -1,4 +1,4 @@
-import { post, get, put, del } from "./requester.js";
+import { post, get, put, del } from "@src/data/requester.js";
 
 const endpoints = {
   allData: (apiClass) => `/classes/${apiClass}`,

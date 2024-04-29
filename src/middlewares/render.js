@@ -1,4 +1,4 @@
-import { html, render as baseRender } from "../../lib/lit-html/lit-html.js";
+import { html, render as baseRender } from "@lit-html/lit-html.js";
 
 export function renderer(root) {
   return function (ctx, next) {

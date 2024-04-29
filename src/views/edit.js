@@ -1,9 +1,9 @@
-import { html } from "../../lib/lit-html/lit-html.js";
-import { getAllData, getAllDataForOneItem, getDataDetails } from "../data/data.js";
-import { quizHelper } from "../data/quizHelper.js";
-import { createSubmitHandler } from "../util.js";
-import { navigationTemplate } from "./navigation.js";
-import { questionForm, topicOption } from "./partials.js";
+import { html } from "@lit-html/lit-html.js";
+import { getAllData, getAllDataForOneItem, getDataDetails } from "@src/data/data.js";
+import { quizHelper } from "@src/data/quizHelper.js";
+import { createSubmitHandler } from "@src/util.js";
+import { navigationTemplate } from "@src/views/navigation.js";
+import { questionForm, topicOption } from "@src/views/partials.js";
 
 /**
  *

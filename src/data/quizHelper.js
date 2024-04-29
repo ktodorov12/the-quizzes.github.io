@@ -1,5 +1,5 @@
-import { createData, deleteData, updateData } from "./data.js";
-import { findEmptyQuestion, pointer } from ".././util.js";
+import { createData, deleteData, updateData } from "@src/data/data.js";
+import { findEmptyQuestion, pointer } from "@src/util.js";
 
 /**
  * @param {import("@src/types").PageContext} ctx
