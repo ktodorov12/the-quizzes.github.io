@@ -1,6 +1,6 @@
 {
-    "compilerOptions" : {
-        "baseUrl": ".the-quizzes.github.io/",
+    "compilerOptions": {
+        "baseUrl": "./",
         "target": "ES2021",
         "module": "ES6",
         "checkJs": true,
@@ -10,9 +10,9 @@
             "DOM"
         ],
         "paths": {
-            "@src/*": [".the-quizzes.github.io/src/*"],
-            "@page/*": [".the-quizzes.github.io/node_modules/page/*"],
-            "@lit-html/*": [".the-quizzes.github.io/node_modules/lit-html/*"]
+            "@src/*": ["src/*"],
+            "@page/*": ["node_modules/page/*"],
+            "@lit-html/*": ["node_modules/lit-html/*"]
         }
     },
     "include": [
