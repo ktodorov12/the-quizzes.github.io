@@ -4,7 +4,7 @@ import { loading } from "@src/views/partials.js";
 
 const host = "https://parseapi.back4app.com";
 const appId = "wiGlkOqBJqWcycdj7p7yhQbgwk6qksF26LhMIydm";
-const apiKey = "BDfgK1OMAfyEIuJkFNRz0bfFmrDru2rbIAoaY25C";
+const apiKey = "j94L6jttnkztUWbm8htOp2FJDpIsg9NTaywlRw5k";
 
 /**
  *
@@ -17,7 +17,7 @@ async function requester(method, url, data) {
     method,
     headers: {
       "X-Parse-Application-Id": appId,
-      "X-Parse-JavaScript-Key": apiKey,
+      "X-Parse-REST-API-Key": apiKey,
     },
   };
 
@@ -52,6 +52,7 @@ async function requester(method, url, data) {
   } catch (error) {
     //TODO if error is required
     alert(error);
+    console.log(error);
     throw error;
   }
 }
