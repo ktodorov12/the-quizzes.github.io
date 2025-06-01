@@ -17,7 +17,6 @@ import { showEdit } from "../src/views/edit.js";
 
 page(session());
 page(renderer(document.querySelector("main")));
-page(loading());
 
 page("/", showHome);
 page("/login", showLoginView);
