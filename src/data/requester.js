@@ -32,7 +32,6 @@ async function requester(method, url, data) {
   }
 
   try {
-    render(loading(), document.querySelector("main"));
     const response = await fetch(host + url, options);
 
     if (!response.ok) {

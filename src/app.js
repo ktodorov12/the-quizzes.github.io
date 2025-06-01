@@ -29,5 +29,4 @@ page("/results", showResults);
 page("/profile/:id", showProfile);
 page("/edit/:id", showEdit)
 
-page(loading(), showHome);
 page.start();
