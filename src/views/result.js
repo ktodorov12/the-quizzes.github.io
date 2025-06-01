@@ -1,17 +1,17 @@
-import { html } from "@lit-html/lit-html.js";
-import { createData, getResultsForQuiz, updateData } from "@src/data/data.js";
-import { getSessionData, pointer, removeSessionData } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { previewAnswer } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { createData, getResultsForQuiz, updateData } from "../../src/data/data.js";
+import { getSessionData, pointer, removeSessionData } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { previewAnswer } from "../../src/views/partials.js";
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Object} quiz
  * @param {Object} questions
  * @param {Number} percentage
  * @param {Number} correct
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function resultTemplate(ctx, quiz, questions, correct, percentage) {
   return html` 
@@ -36,7 +36,7 @@ function resultTemplate(ctx, quiz, questions, correct, percentage) {
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  */
 export async function showResults(ctx) {
   const quiz = getSessionData("quiz");

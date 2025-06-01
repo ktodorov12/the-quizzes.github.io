@@ -1,22 +1,22 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllDataForOneItem, getDataDetails, updateData } from "@src/data/data.js";
-import { setSessionData } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { contestNavQuestionIndexAnchor, contestQuestion } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllDataForOneItem, getDataDetails, updateData } from "../../src/data/data.js";
+import { setSessionData } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { contestNavQuestionIndexAnchor, contestQuestion } from "../../src/views/partials.js";
 
 const quizCache = {};
 let answeredIndexes = {};
 
 /**
  *  View for the contest mode
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {number} num - Number of the question given from the url
  * @param {Object} quiz - Given quiz
  * @param {Object} questions - All questions in the quiz
  * @param {Function} clickRadioBtn
  * @param {Function} submitAnswers
  * @param {Function} resetQuiz
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers, resetQuiz) {
   return html` 
@@ -49,7 +49,7 @@ function contestTemplate(ctx, num, quiz, questions, clickRadioBtn, submitAnswers
 
 /**
  * Async function for retrieving quizz by id and all questions for it and to render the view with the data
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  */
 export async function showContest(ctx) {
   // @ts-ignore

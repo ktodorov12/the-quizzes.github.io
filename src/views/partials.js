@@ -1,5 +1,5 @@
-import { html } from "@lit-html/lit-html.js";
-import { createSubmitHandler } from "@src/util.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { createSubmitHandler } from "../../src/util.js";
 
 export function loading() {
   return html` 
@@ -20,10 +20,10 @@ export function loading() {
 
 /**
  * Question formfor create and edit views
- * @param {import("@src/types").QuizHelper} helper 
+ * @param {import("../../src/types").QuizHelper} helper 
  * @param {Number} questionNum
  * @param {Object} questionData 
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 export function questionForm(helper, questionNum, questionData) {
   return html` 
@@ -52,7 +52,7 @@ export function questionForm(helper, questionNum, questionData) {
  * @param {number} questionNum - Number of the question
  * @param {Object} questionData - Data stored into the question / Correct index is needed
  * @param {Function} onRemove 
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 export function formInputQuestion(questionNum, questionData, onRemove) {
   return questionData.answers.map((answer, i) => formAnswerQuestions(questionNum, answer, onRemove, i, questionData.correctIndex));
@@ -65,7 +65,7 @@ export function formInputQuestion(questionNum, questionData, onRemove) {
  * @param {Function} onRemove 
  * @param {number} answerIndex 
  * @param {number} radioIndex 
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function formAnswerQuestions(numQuestion, answer, onRemove, answerIndex, radioIndex) {
   return html` 
@@ -126,7 +126,7 @@ export function quizCard(quiz, isOwner, isProfile, onDelete) {
  * @param {number} i - Index of the anchor 
  * @param {number | undefined} answered - - Checks data to see if the number was answered/stored
  * @param {number} num - Number of the question
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 export function contestNavQuestionIndexAnchor(quizId, i, answered, num) {
   let classA = "q-index";
@@ -141,7 +141,7 @@ export function contestNavQuestionIndexAnchor(quizId, i, answered, num) {
  * @param {number} questionIndex 
  * @param {Function} onClick 
  * @param {number | undefined} answered - Checks data to see if the number was answered/stored
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 export function contestQuestion(question, questionIndex, onClick, answered) {
   return html` 
@@ -161,7 +161,7 @@ export function contestQuestion(question, questionIndex, onClick, answered) {
  * @param {number} answerIndex - Index of the answer inside of the question
  * @param {Function} onClick 
  * @param {number | undefined} answered - Checks data to see if the number was answered/stored
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function contestAnswerLabel(answer, numQuestion, answerIndex, onClick, answered) {
   return html`      
@@ -176,7 +176,7 @@ function contestAnswerLabel(answer, numQuestion, answerIndex, onClick, answered)
  * @param {number} numQuestion 
  * @param {object} question
  * @param {Function} onClick 
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 export function previewAnswer(numQuestion, question, onClick) {
   return html`
@@ -203,7 +203,7 @@ export function previewAnswer(numQuestion, question, onClick) {
  * @param {number} answerIndex 
  * @param {number} currIndex 
  * @param {number} correctIndex 
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function divAnswer(answer, answerIndex, currIndex, correctIndex) {
   return html`        

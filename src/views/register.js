@@ -1,13 +1,13 @@
-import { html } from "@lit-html/lit-html.js";
-import { register } from "@src/data/users.js";
-import { createSubmitHandler } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { register } from "../../src/data/users.js";
+import { createSubmitHandler } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
 
 /**
  * Register form template
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Function} handler
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function loginTemplate(ctx, handler) {
   return html` 
@@ -31,7 +31,7 @@ function loginTemplate(ctx, handler) {
     </section>`;
 }
 
-/**@param {import("@src/types").PageContext} ctx  */
+/**@param {import("../../src/types").PageContext} ctx  */
 export function showRegister(ctx) {
   const handler = createSubmitHandler(onRegister);
   ctx.render(loginTemplate(ctx, handler));

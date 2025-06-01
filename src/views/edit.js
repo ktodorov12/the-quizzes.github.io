@@ -1,18 +1,18 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData, getAllDataForOneItem, getDataDetails } from "@src/data/data.js";
-import { quizHelper } from "@src/data/quizHelper.js";
-import { createSubmitHandler } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { questionForm, topicOption } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData, getAllDataForOneItem, getDataDetails } from "../../src/data/data.js";
+import { quizHelper } from "../../src/data/quizHelper.js";
+import { createSubmitHandler } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { questionForm, topicOption } from "../../src/views/partials.js";
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {number} questionNumbers
- * @param {import("@src/types").QuizHelper} helper
- * @param {import("@src/types").QuestionData} questionsData
+ * @param {import("../../src/types").QuizHelper} helper
+ * @param {import("../../src/types").QuestionData} questionsData
  * @param {Object} allTopics 
- * @returns {import("@lit-html/lit-html").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
   return html` ${navigationTemplate(ctx)}
@@ -71,7 +71,7 @@ function editTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  */
 export async function showEdit(ctx) {
   //@ts-ignore

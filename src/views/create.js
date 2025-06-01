@@ -1,17 +1,17 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData } from "@src/data/data.js";
-import { quizHelper } from "@src/data/quizHelper.js";
-import { createSubmitHandler, pointer } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { questionForm, topicOption } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData } from "../../src/data/data.js";
+import { quizHelper } from "../../src/data/quizHelper.js";
+import { createSubmitHandler, pointer } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { questionForm, topicOption } from "../../src/views/partials.js";
 
 /**
  * Main template for the create view
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Number} questionNumbers
- * @param {import("@src/types").QuizHelper} helper
- * @param {import("@src/types").QuestionData} questionsData
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @param {import("../../src/types").QuizHelper} helper
+ * @param {import("../../src/types").QuestionData} questionsData
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function createTemplate(ctx, questionNumbers, helper, questionsData, allTopics) {
   return html` 
@@ -79,7 +79,7 @@ const quizData = {
   ownerId: pointer("_User", ""),
 };
 
-/**@param {import("@src/types").PageContext} ctx  */
+/**@param {import("../../src/types").PageContext} ctx  */
 export async function showCreate(ctx) {
   const allTopics = await getAllData("quizTopic");
   const helper = quizHelper(ctx, createTemplate, quizData, allTopics.results);

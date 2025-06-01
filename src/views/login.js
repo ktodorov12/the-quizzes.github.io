@@ -1,13 +1,13 @@
-import { html } from "@lit-html/lit-html.js";
-import { login } from "@src/data/users.js";
-import { createSubmitHandler } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { login } from "../../src/data/users.js";
+import { createSubmitHandler } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
 
 /**
  * Template for login view
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Function} handler
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function loginTemplate(ctx, handler) {
   return html` 
@@ -29,7 +29,7 @@ function loginTemplate(ctx, handler) {
     </section>`;
 }
 
-/**@param {import("@src/types").PageContext} ctx  */
+/**@param {import("../../src/types").PageContext} ctx  */
 export function showLoginView(ctx) {
   const handler = createSubmitHandler(onLogin);
   ctx.render(loginTemplate(ctx, handler));

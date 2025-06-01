@@ -1,16 +1,16 @@
-import { html } from "@lit-html/lit-html.js";
-import { getDataDetails, getUserById } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { isOwner } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getDataDetails, getUserById } from "../../src/data/data.js";
+import { updateTopic } from "../../src/data/dataUpdate.js";
+import { isOwner } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Object} quiz
- * @param {import("@src/types").UserSession} creator
+ * @param {import("../../src/types").UserSession} creator
  * @param {Boolean} isOwner
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function detailsTemplate(ctx, quiz, creator, isOwner) {
   return html` 
@@ -39,7 +39,7 @@ function detailsTemplate(ctx, quiz, creator, isOwner) {
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  */
 export async function showDetails(ctx) {
   // @ts-ignore

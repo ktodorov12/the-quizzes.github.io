@@ -1,9 +1,9 @@
-import { html } from "@lit-html/lit-html.js";
-import { logout } from "@src/data/users.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { logout } from "../../src/data/users.js";
 
 /**
- * @param {import("@src/types").PageContext} ctx
- * @returns {import('@lit-html/lit-html').TemplateResult} Returns an HTML template result.
+ * @param {import("../../src/types").PageContext} ctx
+ * @returns {import('../../lib/lit-html/lit-html.js').TemplateResult} Returns an HTML template result.
  */
 export function navigationTemplate(ctx) {
   return html` 

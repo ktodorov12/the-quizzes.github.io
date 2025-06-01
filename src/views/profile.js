@@ -1,13 +1,13 @@
-import { html } from "@lit-html/lit-html.js";
-import { deleteData, getAllDataForOneItem, getAllParticipationsForQuiz, getUserById } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { isOwner } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { profileQuizResultsTbody, quizCard } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { deleteData, getAllDataForOneItem, getAllParticipationsForQuiz, getUserById } from "../../src/data/data.js";
+import { updateTopic } from "../../src/data/dataUpdate.js";
+import { isOwner } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { profileQuizResultsTbody, quizCard } from "../../src/views/partials.js";
 
 /**
  * 
- * @param {import("@src/types").PageContext} ctx 
+ * @param {import("../../src/types").PageContext} ctx 
  * @param {Object} creatorData - user data for the creator of the showed quizzes in the profile
  * @param {Boolean} currUserIsOwner - checks whether the curr user is the creator of the quizzes in the profile
  * @param {Object} participatedQuizzes - all of the participated quizzes for the user
@@ -57,7 +57,7 @@ function profileTemplate(ctx, creatorData, currUserIsOwner, participatedQuizzes,
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  */
 export async function showProfile(ctx) {
     // @ts-ignore

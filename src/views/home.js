@@ -1,13 +1,13 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { quizCard } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData } from "../../src/data/data.js";
+import { updateTopic } from "../../src/data/dataUpdate.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { quizCard } from "../../src/views/partials.js";
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
- * @returns {import('@lit-html/lit-html.js').TemplateResult} Returns an HTML template result.
+ * @param {import("../../src/types").PageContext} ctx
+ * @returns {import('../../lib/lit-html/lit-html.js').TemplateResult} Returns an HTML template result.
  */
 function homeTemplate(ctx, quizes) {
   return html` 
@@ -34,7 +34,7 @@ function homeTemplate(ctx, quizes) {
     </section>`;
 }
 
-/**@param {import("@src/types").PageContext} ctx */
+/**@param {import("../../src/types").PageContext} ctx */
 export async function showHome(ctx) {
   const quizzes = await getAllData("quizzes");
   const updated = await updateTopic(quizzes);

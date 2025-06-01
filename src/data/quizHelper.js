@@ -1,8 +1,8 @@
-import { createData, deleteData, updateData } from "@src/data/data.js";
-import { findEmptyQuestion, pointer } from "@src/util.js";
+import { createData, deleteData, updateData } from "../../src/data/data.js";
+import { findEmptyQuestion, pointer } from "../../src/util.js";
 
 /**
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Function} template - template to render
  * @param {{
  * topic: string, 
@@ -16,7 +16,7 @@ import { findEmptyQuestion, pointer } from "@src/util.js";
  * objectId?: string}} quizData
  * @param {Object} allTopics 
  * @param {Object=} allQuestions 
- * @returns {import("@src/types").QuizHelper}
+ * @returns {import("../../src/types").QuizHelper}
  */
 export function quizHelper(ctx, template, quizData, allTopics, allQuestions) {
   let questionNumbers = quizData.questionCount;
@@ -242,8 +242,8 @@ function dataParser(object, criteria) {
 
 /**
  * Creates shallow question or populates already created one with data
- * @param {import("@src/types").QuestionData=} data
- * @returns {import("@src/types").QuestionData}
+ * @param {import("../../src/types").QuestionData=} data
+ * @returns {import("../../src/types").QuestionData}
  */
 function createQuestion(data) {
   let question = {

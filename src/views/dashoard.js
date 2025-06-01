@@ -1,17 +1,17 @@
-import { html } from "@lit-html/lit-html.js";
-import { getAllData, search } from "@src/data/data.js";
-import { updateTopic } from "@src/data/dataUpdate.js";
-import { createSubmitHandler, parseQuery } from "@src/util.js";
-import { navigationTemplate } from "@src/views/navigation.js";
-import { quizCard, topicOption } from "@src/views/partials.js";
+import { html } from "../../lib/lit-html/lit-html.js";
+import { getAllData, search } from "../../src/data/data.js";
+import { updateTopic } from "../../src/data/dataUpdate.js";
+import { createSubmitHandler, parseQuery } from "../../src/util.js";
+import { navigationTemplate } from "../../src/views/navigation.js";
+import { quizCard, topicOption } from "../../src/views/partials.js";
 
 /**
  *
- * @param {import("@src/types").PageContext} ctx
+ * @param {import("../../src/types").PageContext} ctx
  * @param {Object} quizzes
  * @param {Function} onSearch
  * @param {Object} allTopics
- * @returns {import("@lit-html/lit-html.js").TemplateResult}
+ * @returns {import("../../lib/lit-html/lit-html.js").TemplateResult}
  */
 function dashboardTemplate(ctx, quizzes, onSearch, allTopics) {
   return html` 
@@ -32,7 +32,7 @@ function dashboardTemplate(ctx, quizzes, onSearch, allTopics) {
     </section>`;
 }
 
-/** @param {import("@src/types").PageContext} ctx*/
+/** @param {import("../../src/types").PageContext} ctx*/
 export async function dashboardView(ctx) {
   // @ts-ignore
   const query = parseQuery(ctx.querystring);
